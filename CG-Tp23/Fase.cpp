@@ -17,6 +17,7 @@ void Fase::novoProjetil(SolidoComposto *p)
 
 void Fase::reseta()
 {
-	inimigos.clear();
-	projeteis.clear();
+    inimigos.clear();
+    projeteis.clear();
 }
+ 

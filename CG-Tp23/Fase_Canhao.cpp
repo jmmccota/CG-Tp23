@@ -74,7 +74,9 @@ void Fase_Canhao::specialKeyUp(int key, int x, int y)
 
 void Fase_Canhao::inicializa()
 {
-    projeteis.push_back(new Bala());
-    glClearColor(0.0, 0.0, 0.0, 1.0);
+    projeteis.push_back(new Relogio(0, 0, -100, 1));
+    projeteis.back()->gira(0, 0, 0);
+    glClearColor(0.0, 0.0, 1.0, 1.0);
     glClearDepth(1.0);
 }
+ 

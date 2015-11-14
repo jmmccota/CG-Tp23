@@ -39,6 +39,7 @@ class Solido
 
 	public:
         Solido() {}
+        Solido(GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat tamX, GLfloat tamY, GLfloat tamZ);
         virtual ~Solido() {}
 
 		//Desenha o solido na tela
@@ -77,7 +78,9 @@ class SolidoBase : public Solido {
         GLUquadric* quad;
 
 	public:
-        SolidoBase() : Solido() { quad = nullptr; }
+        SolidoBase();
+        SolidoBase(GLfloat tamX, GLfloat tamY, GLfloat tamZ) : 
+            Solido (0, 0, 0, tamX, tamY, tamZ) {}
         ~SolidoBase() {}
 
 		//Desenha o solido na tela
@@ -99,7 +102,9 @@ class SolidoComposto : public Solido {
 
 
 	public:
-		SolidoComposto() : Solido() {}
+        SolidoComposto() : Solido() {}
+        SolidoComposto(GLfloat posX, GLfloat posY, GLfloat posZ, float escala) : 
+            Solido(posX, posY, posZ, escala, escala, escala) {}
         ~SolidoComposto() {}
 
 		//Desenha o solido na tela

@@ -15,13 +15,13 @@ void Jogo::run()
 	pair<int, int> posScrenn = EfeitoVisual::getInstance().positionScreen("center");
 	char *myargv[1];
 	int myargc = 1;
-	myargv[0] = _strdup("CG-Tp1");
+	myargv[0] = _strdup("CG-Tp23");
 
 	glutInit(&myargc, myargv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(sizeScreen.first, sizeScreen.second);
 	glutInitWindowPosition(posScrenn.first, posScrenn.second);
-	glutCreateWindow("Passatempo");
+	glutCreateWindow("CG-Tp23");
 	glutReshapeFunc(EfeitoVisual::resize);
 
 	//fases.push_back(new Menu());
@@ -126,3 +126,4 @@ void Jogo::fimJogo()
 {
 	exit(0);
 }
+ 

@@ -1,5 +1,16 @@
 #include "Solido.hpp"
 
+Solido::Solido(GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat tamX, GLfloat tamY, GLfloat tamZ)
+{
+    this->posX = posX;
+    this->posY = posY;
+    this->posZ = posZ;
+    this->tamX = tamX;
+    this->tamY = tamY;
+    this->tamZ = tamZ;
+}
+
+
 void Solido::setPos(std::tuple<GLfloat, GLfloat, GLfloat> pos)
 {
 	posX = std::get<0>(pos);
@@ -31,6 +42,13 @@ void Solido::setTam(std::tuple<GLfloat, GLfloat, GLfloat> tam)
 
 ///////////////////////////////////////////////////////////////////////
 
+SolidoBase::SolidoBase() : Solido()
+{
+    quad = nullptr;
+    tamX = 1;
+    tamY = 1;
+    tamZ = 1;
+}
 
 void SolidoBase::carrega(std::vector<std::string> linhas)
 {
@@ -45,9 +63,9 @@ void SolidoBase::carrega(std::vector<std::string> linhas)
 	posZ = stof(campos[2]);
 
 	campos = FuncoesAuxiliares::split(linhas[2], ' ');
-	tamX = stof(campos[0]);
-	tamY = stof(campos[1]);
-	tamZ = stof(campos[2]);
+	tamX *= stof(campos[0]);
+	tamY *= stof(campos[1]);
+	tamZ *= stof(campos[2]);
 }
 
 void SolidoBase::desenha()
@@ -66,21 +84,23 @@ void SolidoBase::desenha()
     else if (tipo == "K")
     {
         if (nullptr == quad)
-        {
-            gluCylinder(quad, 0.5, 0.5, 1, 24, 24);
-            gluQuadricDrawStyle(quad, GLU_SILHOUETTE);
-            gluQuadricNormals(quad, GLU_SMOOTH);
-        }
-		//Desenhar
+            quad = gluNewQuadric();
+
+        gluCylinder(quad, 0.5, 0.5, 1, 24, 24);
+        gluQuadricDrawStyle(quad, GLU_SMOOTH);
+        gluQuadricNormals(quad, GLU_SMOOTH);
+        gluQuadricOrientation(quad, GLU_OUTSIDE);
     }
     else if (tipo == "E")
     {
         if (nullptr == quad)
-        {
-            gluSphere(quad, 1, 24, 24);
-            gluQuadricDrawStyle(quad, GLU_SILHOUETTE);
-        }
-		//Desenhar
+            quad = gluNewQuadric();
+
+
+        gluSphere(quad, 1, 24, 24);
+        gluQuadricDrawStyle(quad, GLU_SMOOTH);
+        gluQuadricNormals(quad, GLU_SMOOTH);
+        gluQuadricOrientation(quad, GLU_OUTSIDE);
     }
     glPopMatrix();
 }
@@ -115,8 +135,10 @@ void SolidoComposto::carrega(std::string arquivo)
 		std::getline(fs, linha);
 		linhas.push_back(linha);
 
-		solidos.push_back(new SolidoBase());
+		solidos.push_back(new SolidoBase(tamX, tamY, tamZ));
 		solidos.back()->carrega(linhas);
+
+        std::tuple<GLfloat, GLfloat, GLfloat> tam = solidos.back()->getTam();
 	}
 
 	calculaTamanho();
@@ -124,6 +146,10 @@ void SolidoComposto::carrega(std::string arquivo)
 
 void SolidoComposto::desenha()
 {
+    glPushMatrix();
+    glTranslatef(posX, posY, posZ);
+    glScalef(tamX, tamY, tamZ);
+
 	for (int i = 0; i < solidos.size(); i++)
 		solidos[i]->desenha();
 }
@@ -148,9 +174,10 @@ void SolidoComposto::calculaTamanho()
 
 void SolidoComposto::gira(GLfloat rotX, GLfloat rotY, GLfloat rotZ)
 {
-	float senX = sin(rotX), cosX = cos(rotX),
-		  senY = sin(rotY), cosY = cos(rotY),
-		  senZ = sin(rotZ), cosZ = cos(rotZ);
+
+    float senX = sin(rotX / 180 * 3.141592), cosX = cos(rotX / 180 * 3.141592),
+          senY = sin(rotY / 180 * 3.141592), cosY = cos(rotY / 180 * 3.141592),
+          senZ = sin(rotZ / 180 * 3.141592), cosZ = cos(rotZ / 180 * 3.141592);
 
 	GLfloat x, y, z;
 
