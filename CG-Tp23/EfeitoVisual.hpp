@@ -41,6 +41,10 @@ class EfeitoVisual
 		bool isFinish = false;
 
 	public:
+        GLfloat posX = 0;
+        GLfloat posY = 0;
+        GLfloat posZ = 10;
+
 		~EfeitoVisual();
 		
 		//Funcoes de configuracoes basicas

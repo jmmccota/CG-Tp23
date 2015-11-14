@@ -20,7 +20,7 @@ public:
     Relogio(GLfloat posX, GLfloat posY, GLfloat posZ, float escala);
     ~Relogio();
 
-    void acao() {}
+    void acao();
 };
 
 #endif

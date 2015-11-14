@@ -61,7 +61,7 @@ void EfeitoVisual::setCamera()
     glMatrixMode(GL_MODELVIEW);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-    gluLookAt(0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluLookAt(EfeitoVisual::getInstance().posX, EfeitoVisual::getInstance().posY, EfeitoVisual::getInstance().posZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
     //gluLookAt(0, 0, 0, 0, 0, 0, 0, 1, 0);
 }
 

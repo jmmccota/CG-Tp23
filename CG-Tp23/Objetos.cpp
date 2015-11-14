@@ -22,12 +22,22 @@ SolidoComposto(posX, posY, posZ, escala)
 {
     this->carrega("models/relogio.dat");
 }
+
 Relogio::Relogio()
 {
     this->carrega("models/relogio.dat");
 }
 
-
 Relogio::~Relogio()
 {
+}
+
+void Relogio::acao()
+{
+    posX += velX;
+    velX += acelX;
+    posY += velY;
+    velY += acelY;
+    posZ += velZ;
+    velZ += acelZ;
 }
