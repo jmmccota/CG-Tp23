@@ -56,12 +56,16 @@ void EfeitoVisual::setCamera()
 	//gluPerspective(100, 1, 0.1, 500);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glFrustum(-0.1, 0.1, -0.1, 0.1, 0.1, FULLHD_ORTHO_X * 100);
+    glFrustum(EfeitoVisual::getInstance().posX - 0.1, EfeitoVisual::getInstance().posX + 0.1,
+              EfeitoVisual::getInstance().posX - 0.1, EfeitoVisual::getInstance().posX + 0.1,
+              0.1, FULLHD_ORTHO_X * 100);
 
     glMatrixMode(GL_MODELVIEW);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-    gluLookAt(EfeitoVisual::getInstance().posX, EfeitoVisual::getInstance().posY, EfeitoVisual::getInstance().posZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluLookAt(EfeitoVisual::getInstance().posX, EfeitoVisual::getInstance().posY,
+              EfeitoVisual::getInstance().posZ, EfeitoVisual::getInstance().posX,
+              EfeitoVisual::getInstance().posY, EfeitoVisual::getInstance().posZ - 0.1, 0.0, 1.0, 0.0);
     //gluLookAt(0, 0, 0, 0, 0, 0, 0, 1, 0);
 }
 

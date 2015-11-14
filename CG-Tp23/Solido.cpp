@@ -149,6 +149,9 @@ void SolidoComposto::desenha()
     glPushMatrix();
     glTranslatef(posX, posY, posZ);
     glScalef(tamX, tamY, tamZ);
+    glRotatef(rotX, 1, 0, 0);
+    glRotatef(rotY, 0, 1, 0);
+    glRotatef(rotZ, 0, 0, 1);
 
 	for (int i = 0; i < solidos.size(); i++)
 		solidos[i]->desenha();
@@ -176,28 +179,7 @@ void SolidoComposto::calculaTamanho()
 
 void SolidoComposto::gira(GLfloat rotX, GLfloat rotY, GLfloat rotZ)
 {
-
-    float senX = sin(rotX / 180 * 3.141592), cosX = cos(rotX / 180 * 3.141592),
-          senY = sin(rotY / 180 * 3.141592), cosY = cos(rotY / 180 * 3.141592),
-          senZ = sin(rotZ / 180 * 3.141592), cosZ = cos(rotZ / 180 * 3.141592);
-
-	GLfloat x, y, z;
-
-	for (int i = 0; i < solidos.size(); i++) 
-	{
-		solidos[i]->gira(rotX, rotY, rotZ);
-
-		std::tie(x, y, z) = solidos[i]->getPos();
-
-		y = y * cosX - z * senX;
-		z = y * senX + z * cosX;
-
-		x = x * cosY + z * senY;
-		z = -x * senY + z * cosY;
-
-		x = x * cosZ - y * senZ;
-		y = x * senZ + y * cosZ;
-
-		solidos[i]->setPos(std::make_tuple(x, y, z));
-	}
+    this->rotX += rotX;
+    this->rotY += rotY;
+    this->rotZ += rotZ;
 }

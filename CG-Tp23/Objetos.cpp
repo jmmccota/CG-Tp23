@@ -70,10 +70,10 @@ void Canhao::acao(int value)
             gira(-1, 0, 0);
             break;
         case GLUT_KEY_RIGHT:
-            gira(0, 1, 0);
+            gira(0, -1, 0);
             break;
         case GLUT_KEY_LEFT:
-            gira(0, -1, 0);
+            gira(0, 1, 0);
             break;
     }
 }

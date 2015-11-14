@@ -1,6 +1,12 @@
 #include "Fase_Canhao.hpp"
 
 
+namespace gambi
+{
+    GLfloat x[2] = { 100, -100 };
+    GLfloat z[4] = { -50, -100, -150, -200 };
+}
+
 
 Fase_Canhao::Fase_Canhao()
 {
@@ -88,8 +94,10 @@ void Fase_Canhao::keyDown(unsigned char key, int x, int y)
         case 'P':
         case 'p':
             rand();
-            inimigos.push_back(new Relogio(rand() % 200 - 100, -50, rand() % 200 - 200, 1));
-            inimigos.back()->setVel(std::make_tuple(rand() % 5 - 2.5, rand() % 5, rand() % 5 - 2.5));
+            GLfloat x = gambi::x[rand() % 2];
+            GLfloat z = gambi::z[rand() % 4];
+            inimigos.push_back(new Relogio(x, -50 + z, z, 1));
+            inimigos.back()->setVel(std::make_tuple(-x / (rand() % 100 + 20), 4, z / (rand() % 100 + 20)));
             inimigos.back()->setAcel(std::make_tuple(0, -0.02, 0));
             break;
     }
@@ -110,7 +118,7 @@ void Fase_Canhao::specialKeyUp(int key, int x, int y)
 
 void Fase_Canhao::inicializa()
 {
-    principal = new Canhao(0, 0, 0, 1);
+    principal = new Canhao(0, -2, 0, 1);
     srand(time(NULL));
     glClearColor(0.0, 0.0, 1.0, 1.0);
     glClearDepth(1.0);

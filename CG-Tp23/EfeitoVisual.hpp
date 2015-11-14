@@ -42,8 +42,8 @@ class EfeitoVisual
 
 	public:
         GLfloat posX = 0;
-        GLfloat posY = 3;
-        GLfloat posZ = 1;
+        GLfloat posY = 2;
+        GLfloat posZ = -2;
 
 		~EfeitoVisual();
 		
