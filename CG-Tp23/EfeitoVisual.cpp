@@ -1,14 +1,14 @@
 #include "EfeitoVisual.hpp"
 #include <cmath>
-#define FULLHD_ORTHO_X 1000
-#define FULLHD_ORTHO_Y 1000
+#define FULLHD_ORTHO_X 700
+#define FULLHD_ORTHO_Y 700
 
 
 EfeitoVisual::EfeitoVisual()
 {
     fullscreen = false;
-    sizeX = 1000;
-    sizeY = 1000;
+    sizeX = FULLHD_ORTHO_X;
+    sizeY = FULLHD_ORTHO_Y;
 }
 
 EfeitoVisual::~EfeitoVisual()
@@ -47,20 +47,22 @@ void EfeitoVisual::resize(GLsizei w, GLsizei h)
     else
         glViewport(0, 0, h, h);
 
-    // Inicializa o sistema de coordenadas
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
     EfeitoVisual::getInstance().sizeX = w;
     EfeitoVisual::getInstance().sizeY = h;
 }
 
 void EfeitoVisual::setCamera()
 {
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluPerspective(100, 1, 0.1, 500);
-	gluLookAt(0, 0, 0, 0, 0, 0, 0, 1, 0);
+	//gluPerspective(100, 1, 0.1, 500);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glFrustum(-0.1, 0.1, -0.1, 0.1, 0.1, FULLHD_ORTHO_X);
+
+    glMatrixMode(GL_MODELVIEW);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    gluLookAt(0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    //gluLookAt(0, 0, 0, 0, 0, 0, 0, 1, 0);
 }
 
 bool EfeitoVisual::isFullScreen()
@@ -90,8 +92,8 @@ void EfeitoVisual::setFullScreen()
     }
     else {
         //Default values
-        sizeX = 1000;
-        sizeY = 1000;
+        sizeX = FULLHD_ORTHO_X;
+        sizeY = FULLHD_ORTHO_Y;
         glutReshapeWindow(sizeX, sizeY);
         pair<int, int> position = positionScreen("center");
         glutInitWindowPosition(position.first, position.second);

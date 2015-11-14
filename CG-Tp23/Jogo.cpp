@@ -21,7 +21,7 @@ void Jogo::run()
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(sizeScreen.first, sizeScreen.second);
 	glutInitWindowPosition(posScrenn.first, posScrenn.second);
-	glutCreateWindow("Jiraya's Fly");
+	glutCreateWindow("Passatempo");
 	glutReshapeFunc(EfeitoVisual::resize);
 
 	//fases.push_back(new Menu());
@@ -97,8 +97,6 @@ void Jogo::inicializa(int fase)
 {
 	estado = 0;
 	// Inicializa o sistema de coordenadas
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
 	glutMouseFunc(Jogo::mouse);
 	glutKeyboardFunc(Jogo::keyDown);
 	glutKeyboardUpFunc(Jogo::keyUp);

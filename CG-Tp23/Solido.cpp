@@ -53,8 +53,6 @@ void SolidoBase::carrega(std::vector<std::string> linhas)
 void SolidoBase::desenha()
 {
     glPushMatrix();
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
     glColor4f(cor[0], cor[1], cor[2], cor[3]);
     glTranslatef(posX, posY, posZ);
     glScalef(tamX, tamY, tamZ);
@@ -85,7 +83,6 @@ void SolidoBase::desenha()
 		//Desenhar
     }
     glPopMatrix();
-    glFlush();
 }
 
 void SolidoBase::gira(GLfloat rotX, GLfloat rotY, GLfloat rotZ)
