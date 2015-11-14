@@ -117,7 +117,7 @@ class SolidoComposto : public Solido {
 
 		//Define as acoes do solido
 		//	(movimento, destruicao, ...)
-		virtual void acao() = 0;
+		virtual void acao(int value) = 0;
 
 		//Calcula o tamanho do solido
 		void calculaTamanho();

@@ -32,14 +32,13 @@ void Fase_Canhao::desenha()
 
     EfeitoVisual::getInstance().setCamera();
 
-
-	//principal->desenha();
-
 	for (auto i = inimigos.begin(); i != inimigos.end(); i++)
 		(*i)->desenha();
 
 	for (auto i = projeteis.begin(); i != projeteis.end(); i++)
-		(*i)->desenha();
+        (*i)->desenha();
+
+    principal->desenha();
 
 	glutSwapBuffers();
 }
@@ -50,13 +49,11 @@ void Fase_Canhao::terminou()
 
 void Fase_Canhao::atualiza(int value)
 {
-    //principal->acao();
-
     for (auto i = inimigos.begin(); i != inimigos.end(); i++)
-        (*i)->acao();
+        (*i)->acao(0);
 
     for (auto i = projeteis.begin(); i != projeteis.end(); i++)
-        (*i)->acao();
+        (*i)->acao(0);
 
 
 
@@ -104,6 +101,7 @@ void Fase_Canhao::keyUp(unsigned char key, int x, int y)
 
 void Fase_Canhao::specialKeyDown(int key, int x, int y)
 {
+    principal->acao(key);
 }
 
 void Fase_Canhao::specialKeyUp(int key, int x, int y)
@@ -112,6 +110,7 @@ void Fase_Canhao::specialKeyUp(int key, int x, int y)
 
 void Fase_Canhao::inicializa()
 {
+    principal = new Canhao(0, 0, 0, 1);
     srand(time(NULL));
     glClearColor(0.0, 0.0, 1.0, 1.0);
     glClearDepth(1.0);
