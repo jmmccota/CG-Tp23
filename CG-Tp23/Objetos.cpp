@@ -61,19 +61,31 @@ Canhao::~Canhao()
 
 void Canhao::acao(int value)
 {
+    int qtd = 3;
     switch (value)
     {
         case GLUT_KEY_UP:
-            gira(1, 0, 0);
+            gira(qtd, 0, 0);
             break;
         case GLUT_KEY_DOWN:
-            gira(-1, 0, 0);
+            gira(-qtd, 0, 0);
             break;
         case GLUT_KEY_RIGHT:
-            gira(0, -1, 0);
+            gira(0, -qtd, 0);
             break;
         case GLUT_KEY_LEFT:
-            gira(0, 1, 0);
+            gira(0, qtd, 0);
             break;
+        //case ' ':{
+        //    GLfloat x = tamX, y = tamY, z = tamZ,
+        //            rX = rotX / 180 * 3.141592, rY = rotY / 180 * 3.141592, rZ = rotZ / 180 * 3.141592,
+        //            xi, yi, zi;
+
+        //    //Calcula posicao ponta
+        //    xi = z * cos(1.57079 + rY)
+
+        //    Bala b = new Bala();
+        //        break;
+        //}
     }
 }

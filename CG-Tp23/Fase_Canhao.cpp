@@ -221,6 +221,9 @@ void Fase_Canhao::mouse(int button, int state, int x, int y)
 void Fase_Canhao::keyDown(unsigned char key, int x, int y)
 {
     switch (key){
+        default:
+            principal->acao(key);
+            break;
         case '1':
             EfeitoVisual::getInstance().posX++;
             break;
@@ -295,6 +298,6 @@ void Fase_Canhao::inicializa()
 
     srand(time(NULL));
 
-    principal = new Canhao(0, -2, 0, 1);
+    principal = new Canhao(0, 0, 0, 1);
 }
  
