@@ -1,10 +1,12 @@
 #include "Fase_Canhao.hpp"
 
+
 #define TEXTURA_CENTRO 0
 #define TEXTURA_DIREITA 1
 #define TEXTURA_CIMA 2
 #define TEXTURA_ESQUERDA 3
 #define TEXTURA_BAIXO 4
+
 
 namespace gambi
 {
@@ -30,45 +32,65 @@ void Fase_Canhao::desenhaBackground()
 
     glBindTexture(GL_TEXTURE_2D, texturas[TEXTURA_CENTRO]);
     glBegin(GL_QUADS);
+	glTexCoord2f(1.0f, 1.0f);
     glVertex3f(1000, 1000, -2000);
+	glTexCoord2f(1.0f, 0.0f);
     glVertex3f(1000, -1000, -2000);
+	glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-1000, -1000, -2000);
+	glTexCoord2f(0.0f, 1.0f);
     glVertex3f(-1000, 1000, -2000);
     glEnd();
 
 
     glBindTexture(GL_TEXTURE_2D, texturas[TEXTURA_DIREITA]);
     glBegin(GL_QUADS);
+	glTexCoord2f(1.0f, 1.0f);
     glVertex3f(1000, 1000, 0);
+	glTexCoord2f(0.0f, 1.0f);
     glVertex3f(1000, 1000, -2000);
+	glTexCoord2f(0.0f, 0.0f);
     glVertex3f(1000, -1000, -2000);
+	glTexCoord2f(1.0f, 0.0f);
     glVertex3f(1000, -1000, 0);
     glEnd();
 
 
     glBindTexture(GL_TEXTURE_2D, texturas[TEXTURA_ESQUERDA]);
     glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 1.0f);
     glVertex3f(-1000, 1000, 0);
+	glTexCoord2f(1.0f, 1.0f);
     glVertex3f(-1000, 1000, -2000);
+	glTexCoord2f(1.0f, 0.0f);
     glVertex3f(-1000, -1000, -2000);
+	glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-1000, -1000, 0);
     glEnd();
 
 
     glBindTexture(GL_TEXTURE_2D, texturas[TEXTURA_CIMA]);
     glBegin(GL_QUADS);
+	glTexCoord2f(1.0f, 1.0f);
     glVertex3f(1000, 1000, 0);
+	glTexCoord2f(1.0f, 0.0f);
     glVertex3f(1000, 1000, -2000);
+	glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-1000, 1000, -2000);
+	glTexCoord2f(0.0f, 1.0f);
     glVertex3f(-1000, 1000, 0);
     glEnd();
 
 
     glBindTexture(GL_TEXTURE_2D, texturas[TEXTURA_BAIXO]);
     glBegin(GL_QUADS);
+	glTexCoord2f(1.0f, 0.0f);
     glVertex3f(1000, -1000, 0);
+	glTexCoord2f(1.0f, 1.0f);
     glVertex3f(1000, -1000, -2000);
+	glTexCoord2f(0.0f, 1.0f);
     glVertex3f(-1000, -1000, -2000);
+	glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-1000, -1000, 0);
     glEnd();
 }
