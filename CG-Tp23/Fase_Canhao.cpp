@@ -1,5 +1,10 @@
 #include "Fase_Canhao.hpp"
 
+#define TEXTURA_CENTRO 0
+#define TEXTURA_DIREITA 1
+#define TEXTURA_CIMA 2
+#define TEXTURA_ESQUERDA 3
+#define TEXTURA_BAIXO 4
 
 namespace gambi
 {
@@ -22,21 +27,70 @@ void Fase_Canhao::definePersonagens()
 
 void Fase_Canhao::desenhaBackground()
 {
+
+    glBindTexture(GL_TEXTURE_2D, texturas[TEXTURA_CENTRO]);
+    glBegin(GL_QUADS);
+    glVertex3f(1000, 1000, -2000);
+    glVertex3f(1000, -1000, -2000);
+    glVertex3f(-1000, -1000, -2000);
+    glVertex3f(-1000, 1000, -2000);
+    glEnd();
+
+
+    glBindTexture(GL_TEXTURE_2D, texturas[TEXTURA_DIREITA]);
+    glBegin(GL_QUADS);
+    glVertex3f(1000, 1000, 0);
+    glVertex3f(1000, 1000, -2000);
+    glVertex3f(1000, -1000, -2000);
+    glVertex3f(1000, -1000, 0);
+    glEnd();
+
+
+    glBindTexture(GL_TEXTURE_2D, texturas[TEXTURA_ESQUERDA]);
+    glBegin(GL_QUADS);
+    glVertex3f(-1000, 1000, 0);
+    glVertex3f(-1000, 1000, -2000);
+    glVertex3f(-1000, -1000, -2000);
+    glVertex3f(-1000, -1000, 0);
+    glEnd();
+
+
+    glBindTexture(GL_TEXTURE_2D, texturas[TEXTURA_CIMA]);
+    glBegin(GL_QUADS);
+    glVertex3f(1000, 1000, 0);
+    glVertex3f(1000, 1000, -2000);
+    glVertex3f(-1000, 1000, -2000);
+    glVertex3f(-1000, 1000, 0);
+    glEnd();
+
+
+    glBindTexture(GL_TEXTURE_2D, texturas[TEXTURA_BAIXO]);
+    glBegin(GL_QUADS);
+    glVertex3f(1000, -1000, 0);
+    glVertex3f(1000, -1000, -2000);
+    glVertex3f(-1000, -1000, -2000);
+    glVertex3f(-1000, -1000, 0);
+    glEnd();
 }
 
 void Fase_Canhao::desenhaHUD()
 {
 }
 
+void Fase_Canhao::insereLuzes()
+{
+
+}
+
 void Fase_Canhao::desenha()
 {
-    EfeitoVisual::getInstance().setCamera();
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_MODELVIEW);
+    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
     EfeitoVisual::getInstance().setCamera();
+
+    desenhaBackground();
 
 	for (auto i = inimigos.begin(); i != inimigos.end(); i++)
 		(*i)->desenha();
@@ -118,6 +172,15 @@ void Fase_Canhao::specialKeyUp(int key, int x, int y)
 
 void Fase_Canhao::inicializa()
 {
+    glShadeModel(GL_SMOOTH);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, texturas);
+    texturas[TEXTURA_CENTRO] = SOIL_load_OGL_texture("textures/center.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+    texturas[TEXTURA_DIREITA] = SOIL_load_OGL_texture("textures/right.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+    texturas[TEXTURA_CIMA] = SOIL_load_OGL_texture("textures/top.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+    texturas[TEXTURA_ESQUERDA] = SOIL_load_OGL_texture("textures/left.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+    texturas[TEXTURA_BAIXO] = SOIL_load_OGL_texture("textures/bottom.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
     principal = new Canhao(0, -2, 0, 1);
     srand(time(NULL));
     glClearColor(0.0, 0.0, 1.0, 1.0);
