@@ -131,15 +131,40 @@ void Fase_Canhao::terminou()
 
 void Fase_Canhao::atualiza(int value)
 {
-    for (auto i = inimigos.begin(); i != inimigos.end(); i++)
-        (*i)->acao(0);
+    for (auto i = inimigos.begin(); i != inimigos.end();)
+    {
+        auto pos = (*i)->getPos();
 
-    for (auto i = projeteis.begin(); i != projeteis.end(); i++)
-        (*i)->acao(0);
+        if (abs(std::get<0>(pos)) > 1000 ||
+            abs(std::get<1>(pos)) > 1000 ||
+            std::get<2>(pos) > 2000)
+        {
+            i = inimigos.erase(i);
+        }
+        else
+        {
+            (*i)->acao(0);
+            i++;
+        }
+    }
 
+    for (auto i = projeteis.begin(); i != projeteis.end();)
+    {
+        auto pos = (*i)->getPos();
 
+        if (abs(std::get<0>(pos)) > 1000 ||
+            abs(std::get<1>(pos)) > 1000 ||
+            std::get<2>(pos) > 2000)
+        {
+            i = inimigos.erase(i);
+        }
+        else
+        {
+            (*i)->acao(0);
+            i++;
+        }
+    }
 
-    //Remove coisas inativas
 }
 
 void Fase_Canhao::mouse(int button, int state, int x, int y)
@@ -203,9 +228,11 @@ void Fase_Canhao::inicializa()
     texturas[TEXTURA_CIMA] = SOIL_load_OGL_texture("textures/top.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
     texturas[TEXTURA_ESQUERDA] = SOIL_load_OGL_texture("textures/left.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
     texturas[TEXTURA_BAIXO] = SOIL_load_OGL_texture("textures/bottom.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-    principal = new Canhao(0, -2, 0, 1);
-    srand(time(NULL));
     glClearColor(0.0, 0.0, 1.0, 1.0);
     glClearDepth(1.0);
+
+    srand(time(NULL));
+
+    principal = new Canhao(0, -2, 0, 1);
 }
  
