@@ -4,11 +4,11 @@
 #include "Fase.hpp"
 #include "Objetos.hpp"
 #include <SOIL.h>
-#define MAX_TEX 5 
+
 class Fase_Canhao : public Fase
 {
     protected:
-		GLuint texturas[MAX_TEX];
+		GLuint texturas[5];
 
 	public:
 		Fase_Canhao();

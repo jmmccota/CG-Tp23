@@ -58,7 +58,7 @@ void EfeitoVisual::setCamera()
     glLoadIdentity();
     glFrustum(EfeitoVisual::getInstance().posX - 0.1, EfeitoVisual::getInstance().posX + 0.1,
               EfeitoVisual::getInstance().posX - 0.1, EfeitoVisual::getInstance().posX + 0.1,
-              0.1, 2000);
+              0.1, 2100);
 
     glMatrixMode(GL_MODELVIEW);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
