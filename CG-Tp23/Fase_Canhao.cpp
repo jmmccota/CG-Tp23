@@ -29,7 +29,9 @@ void Fase_Canhao::definePersonagens()
 
 void Fase_Canhao::desenhaBackground()
 {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	glColor3f(1.0f, 1.0f, 1.0f);
     glBindTexture(GL_TEXTURE_2D, texturas[TEXTURA_CENTRO]);
     glBegin(GL_QUADS);
 	glTexCoord2f(1.0f, 1.0f);
@@ -93,6 +95,13 @@ void Fase_Canhao::desenhaBackground()
 	glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-1000, -1000, 0);
     glEnd();
+
+	glBegin(GL_QUADS);
+	glVertex3f(1000, 1000, 0);
+	glVertex3f(1000, -1000, 0);
+	glVertex3f(-1000, -1000, 0);
+	glVertex3f(-1000, 1000, 0);
+	glEnd();
 }
 
 void Fase_Canhao::desenhaHUD()
@@ -101,42 +110,7 @@ void Fase_Canhao::desenhaHUD()
 
 void Fase_Canhao::insereLuzes()
 {
-    GLfloat luzAmbiente[4] = { 0.8, 0.8, 0.8, 1.0 };
-    GLfloat luzDifusa[4] = { 0.7, 0.7, 0.7, 1.0 };	   // "cor" 
-    GLfloat luzEspecular[4] = { 1.0, 1.0, 1.0, 1.0 };// "brilho" 
-    GLfloat posicaoLuz[4] = { 8.0, 0.0, 0.0, 0.0 };
-    GLfloat posicaoLuz2[4] = { -8.0, 0.0, 0.0, 0.0 };
-    GLfloat posicaoLuz3[4] = { 0.0, 8.0, 0.0, 0.0 };
-
-    // Ativa o uso da luz ambiente 
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbiente);
-
-    // Define os parâmetros da luz de número 0
-    glLightfv(GL_LIGHT0, GL_AMBIENT, luzAmbiente);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusa);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecular);
-    glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz);
-    // Define os parâmetros da luz de número 1
-    glLightfv(GL_LIGHT1, GL_AMBIENT, luzAmbiente);
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, luzDifusa);
-    glLightfv(GL_LIGHT1, GL_SPECULAR, luzEspecular);
-    glLightfv(GL_LIGHT1, GL_POSITION, posicaoLuz2);
-    // Define os parâmetros da luz de número 2
-    glLightfv(GL_LIGHT2, GL_AMBIENT, luzAmbiente);
-    glLightfv(GL_LIGHT2, GL_DIFFUSE, luzDifusa);
-    glLightfv(GL_LIGHT2, GL_SPECULAR, luzEspecular);
-    glLightfv(GL_LIGHT2, GL_POSITION, posicaoLuz3);
-
-    // Habilita a definição da cor do material a partir da cor corrente
-    glEnable(GL_COLOR_MATERIAL);
-    //Habilita o uso de iluminação
-    glEnable(GL_LIGHTING);
-    // Habilita a luz de número 0
-    glEnable(GL_LIGHT0);
-    // Habilita a luz de número 1
-    glEnable(GL_LIGHT1);
-    // Habilita a luz de número 2
-    glEnable(GL_LIGHT2);
+    
 }
 
 void Fase_Canhao::desenha()
@@ -256,18 +230,65 @@ void Fase_Canhao::specialKeyUp(int key, int x, int y)
 
 void Fase_Canhao::inicializa()
 {
-    glShadeModel(GL_SMOOTH);
-    glEnable(GL_DEPTH_TEST);
+    
+    
+	/*glEnable(GL_TEXTURE_2D);
+	glGenTextures(1, texturas);
+	texturas[TEXTURA_CENTRO] = SOIL_load_OGL_texture("textures/center.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	texturas[TEXTURA_DIREITA] = SOIL_load_OGL_texture("textures/right.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	texturas[TEXTURA_CIMA] = SOIL_load_OGL_texture("textures/top.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	texturas[TEXTURA_ESQUERDA] = SOIL_load_OGL_texture("textures/left.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	texturas[TEXTURA_BAIXO] = SOIL_load_OGL_texture("textures/bottom.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	glClearColor(0.0, 0.0, 1.0, 1.0);
+	glClearDepth(1.0);*/
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	GLfloat luzAmbiente[4] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat luzDifusa[4] = { 0.7, 0.7, 0.7, 1.0 };	   // "cor" 
+	GLfloat luzEspecular[4] = { 1.0, 1.0, 1.0, 1.0 };// "brilho" 
+	GLfloat posicaoLuz[4] = { 990.0, 0.0, 0.0, 0.0 };
+	GLfloat posicaoLuz2[4] = { -990.0, 0.0, 0.0, 0.0 };
+	GLfloat posicaoLuz3[4] = { 0.0, 990.0, 0.0, 0.0 };
+	glShadeModel(GL_SMOOTH);
+	// Ativa o uso da luz ambiente 
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbiente);
 
-    glEnable(GL_TEXTURE_2D);
-    glGenTextures(1, texturas);
-    texturas[TEXTURA_CENTRO] = SOIL_load_OGL_texture("textures/center.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-    texturas[TEXTURA_DIREITA] = SOIL_load_OGL_texture("textures/right.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-    texturas[TEXTURA_CIMA] = SOIL_load_OGL_texture("textures/top.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-    texturas[TEXTURA_ESQUERDA] = SOIL_load_OGL_texture("textures/left.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-    texturas[TEXTURA_BAIXO] = SOIL_load_OGL_texture("textures/bottom.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-    glClearColor(0.0, 0.0, 1.0, 1.0);
-    glClearDepth(1.0);
+	// Define os parâmetros da luz de número 0
+	glLightfv(GL_LIGHT0, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusa);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecular);
+	glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz);
+	// Define os parâmetros da luz de número 1
+	glLightfv(GL_LIGHT1, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, luzDifusa);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, luzEspecular);
+	glLightfv(GL_LIGHT1, GL_POSITION, posicaoLuz2);
+	// Define os parâmetros da luz de número 2
+	glLightfv(GL_LIGHT2, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT2, GL_DIFFUSE, luzDifusa);
+	glLightfv(GL_LIGHT2, GL_SPECULAR, luzEspecular);
+	glLightfv(GL_LIGHT2, GL_POSITION, posicaoLuz3);
+
+	// Habilita a definição da cor do material a partir da cor corrente
+	glEnable(GL_COLOR_MATERIAL);
+	//Habilita o uso de iluminação
+	glEnable(GL_LIGHTING);
+	// Habilita a luz de número 0
+	glEnable(GL_LIGHT0);
+	// Habilita a luz de número 1
+	glEnable(GL_LIGHT1);
+	// Habilita a luz de número 2
+	glEnable(GL_LIGHT2);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
+	glGenTextures(1, texturas);
+	texturas[TEXTURA_CENTRO] = SOIL_load_OGL_texture("textures/center.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	texturas[TEXTURA_DIREITA] = SOIL_load_OGL_texture("textures/right.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	texturas[TEXTURA_CIMA] = SOIL_load_OGL_texture("textures/top.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	texturas[TEXTURA_ESQUERDA] = SOIL_load_OGL_texture("textures/left.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	texturas[TEXTURA_BAIXO] = SOIL_load_OGL_texture("textures/bottom.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	/*glClearColor(0.0, 0.0, 1.0, 1.0);
+	glClearDepth(1.0);*/
+   
 
     srand(time(NULL));
 
