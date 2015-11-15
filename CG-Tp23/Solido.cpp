@@ -152,6 +152,7 @@ void SolidoComposto::desenha()
 
 	for (int i = 0; i < solidos.size(); i++)
 		solidos[i]->desenha();
+	glPopMatrix();
 }
 
 void SolidoComposto::calculaTamanho()
