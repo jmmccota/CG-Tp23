@@ -3,9 +3,13 @@
 
 #include "Fase.hpp"
 #include "Objetos.hpp"
+#include <SOIL.h>
 
 class Fase_Canhao : public Fase
 {
+    protected:
+        GLuint texturas[5];
+
 	public:
 		Fase_Canhao();
 		~Fase_Canhao();
@@ -15,6 +19,8 @@ class Fase_Canhao : public Fase
 		void desenhaBackground();
 
 		void desenhaHUD();
+
+        void insereLuzes();
 
 		void desenha();
 

@@ -10,7 +10,7 @@ class Bala : public SolidoComposto
         Bala(GLfloat posX, GLfloat posY, GLfloat posZ, float escala);
 		~Bala();
 
-		void acao() {}
+        void acao(int value) {}
 };
 
 class Relogio : public SolidoComposto
@@ -20,7 +20,17 @@ public:
     Relogio(GLfloat posX, GLfloat posY, GLfloat posZ, float escala);
     ~Relogio();
 
-    void acao() {}
+    void acao(int value);
+};
+
+class Canhao : public SolidoComposto
+{
+public:
+    Canhao();
+    Canhao(GLfloat posX, GLfloat posY, GLfloat posZ, float escala);
+    ~Canhao();
+
+    void acao(int value);
 };
 
 #endif
