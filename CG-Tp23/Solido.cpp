@@ -1,7 +1,8 @@
 #include "Solido.hpp"
 
-Solido::Solido(GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat tamX, GLfloat tamY, GLfloat tamZ)
+Solido::Solido(GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat tamX, GLfloat tamY, GLfloat tamZ, Fase* fase)
 {
+    this->fase = fase;
     this->posX = posX;
     this->posY = posY;
     this->posZ = posZ;
@@ -42,7 +43,7 @@ void Solido::setTam(std::tuple<GLfloat, GLfloat, GLfloat> tam)
 
 ///////////////////////////////////////////////////////////////////////
 
-SolidoBase::SolidoBase() : Solido()
+SolidoBase::SolidoBase() : Solido(nullptr)
 {
     quad = nullptr;
     tamX = 1;
@@ -159,22 +160,28 @@ void SolidoComposto::desenha()
     glPopMatrix();
 }
 
-void SolidoComposto::calculaTamanho()
+tuple<GLfloat, GLfloat, GLfloat> SolidoComposto::calculaTamanho()
 {
-	this->tamX = 0; this->tamY = 0; this->tamZ = 0;
+	GLfloat tamX = 0; tamY = 0; tamZ = 0;
 
 	for (int i = 0; i < solidos.size(); i++)
 	{
 		std::tuple<GLfloat, GLfloat, GLfloat> tam = solidos[i]->getTam();
 		std::tuple<GLfloat, GLfloat, GLfloat> pos = solidos[i]->getPos();
 
-		if (abs(std::get<0>(tam)) + abs(std::get<0>(pos)) > this->tamX)
-			this->tamX = abs(std::get<0>(tam)) + abs(std::get<0>(pos));
-		if (abs(std::get<1>(tam)) + abs(std::get<1>(pos)) > this->tamY)
-			this->tamY = abs(std::get<1>(tam)) + abs(std::get<1>(pos));
-		if (abs(std::get<2>(tam)) + abs(std::get<2>(pos)) > this->tamZ)
-			this->tamZ = abs(std::get<2>(tam)) + abs(std::get<2>(pos));
+		if (abs(std::get<0>(tam)) + abs(std::get<0>(pos)) > tamX)
+			tamX = abs(std::get<0>(tam)) + abs(std::get<0>(pos));
+		if (abs(std::get<1>(tam)) + abs(std::get<1>(pos)) > tamY)
+			tamY = abs(std::get<1>(tam)) + abs(std::get<1>(pos));
+		if (abs(std::get<2>(tam)) + abs(std::get<2>(pos)) > tamZ)
+			tamZ = abs(std::get<2>(tam)) + abs(std::get<2>(pos));
 	}
+
+    this->tamX = tamX;
+    this->tamY = tamY;
+    this->tamZ = tamZ;
+
+    return make_tuple(tamX, tamY, tamZ);
 }
 
 void SolidoComposto::gira(GLfloat rotX, GLfloat rotY, GLfloat rotZ)

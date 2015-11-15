@@ -29,8 +29,6 @@ void Fase_Canhao::definePersonagens()
 
 void Fase_Canhao::desenhaBackground()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	glColor3f(1.0f, 1.0f, 1.0f);
     glBindTexture(GL_TEXTURE_2D, texturas[TEXTURA_CENTRO]);
     glBegin(GL_QUADS);
@@ -161,10 +159,10 @@ void Fase_Canhao::desenha()
 
     desenhaBackground();
 
-	for (auto i = inimigos.begin(); i != inimigos.end(); i++)
+	for (auto i = inimigos.begin(); i != inimigos.end(); ++i)
 		(*i)->desenha();
 
-	for (auto i = projeteis.begin(); i != projeteis.end(); i++)
+	for (auto i = projeteis.begin(); i != projeteis.end(); ++i)
         (*i)->desenha();
 
     principal->desenha();
@@ -178,6 +176,9 @@ void Fase_Canhao::terminou()
 
 void Fase_Canhao::atualiza(int value)
 {
+    principal->acao();
+
+    //remocao de coisas fora da tela
     for (auto i = inimigos.begin(); i != inimigos.end();)
     {
         auto pos = (*i)->getPos();
@@ -190,11 +191,10 @@ void Fase_Canhao::atualiza(int value)
         }
         else
         {
-            (*i)->acao(0);
+            (*i)->acao();
             i++;
         }
     }
-
     for (auto i = projeteis.begin(); i != projeteis.end();)
     {
         auto pos = (*i)->getPos();
@@ -203,15 +203,36 @@ void Fase_Canhao::atualiza(int value)
             abs(std::get<1>(pos)) > 1000 ||
             std::get<2>(pos) > 2000)
         {
-            i = inimigos.erase(i);
+            i = projeteis.erase(i);
         }
         else
         {
-            (*i)->acao(0);
+            (*i)->acao();
             i++;
         }
     }
 
+
+    //Deteccao de colisoes
+
+    for (auto i = projeteis.begin(); i != projeteis.end();)
+    {
+        bool destruiu = false;
+        for (auto j = inimigos.begin(); j != inimigos.end();)
+        {
+            if (EfeitoVisual::getInstance().colisao(*i, *j))
+            {
+                i = projeteis.erase(i);
+                j = inimigos.erase(j);
+                destruiu = true;
+                break;
+            }
+            else
+                ++j;
+        }
+        if (!destruiu)
+            ++i;
+    }
 }
 
 void Fase_Canhao::mouse(int button, int state, int x, int y)
@@ -222,7 +243,7 @@ void Fase_Canhao::keyDown(unsigned char key, int x, int y)
 {
     switch (key){
         default:
-            principal->acao(key);
+            principal->keyDown(key);
             break;
         case '1':
             EfeitoVisual::getInstance().posX++;
@@ -257,15 +278,17 @@ void Fase_Canhao::keyDown(unsigned char key, int x, int y)
 
 void Fase_Canhao::keyUp(unsigned char key, int x, int y)
 {
+    principal->keyUp(key);
 }
 
 void Fase_Canhao::specialKeyDown(int key, int x, int y)
 {
-    principal->acao(key);
+    principal->keyDown(key);
 }
 
 void Fase_Canhao::specialKeyUp(int key, int x, int y)
 {
+    principal->keyUp(key);
 }
 
 void Fase_Canhao::inicializa()
@@ -298,6 +321,6 @@ void Fase_Canhao::inicializa()
 
     srand(time(NULL));
 
-    principal = new Canhao(0, 0, 0, 1);
+    principal = new Canhao(0, 0, 0, 1, this);
 }
  

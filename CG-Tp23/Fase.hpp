@@ -1,7 +1,11 @@
-#ifndef FASE_H
-#define FASE_H
+#include "Solido.hpp"
 
 class Fase;
+
+#ifdef SOLIDO
+
+#ifndef FASE_H
+#define FASE_H
 
 #ifdef _WIN32
 #include <windows.h>
@@ -11,6 +15,7 @@ class Fase;
 #include "Jogo.hpp"
 #include "EfeitoVisual.hpp"
 #include "EfeitoSonoro.hpp"
+#include "Solido.hpp"
 #include <list>
 #include <vector>
 
@@ -95,8 +100,10 @@ class Fase
 };
 
 //Incluir todas as fases do jogo
+#include "Solido.hpp"
 #include "Fase_Canhao.hpp"
 
 
 #endif
  
+#endif

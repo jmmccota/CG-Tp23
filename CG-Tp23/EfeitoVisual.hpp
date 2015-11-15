@@ -54,7 +54,7 @@ class EfeitoVisual
 		pair<float, float> getOrtho2D();
 
 		//Retorna true caso objetos tenham colidido, false caso contrario
-		bool colisao(Solido *a, Solido *b);
+        bool colisao(SolidoComposto *a, SolidoComposto *b);
 
 		//Retorna se a tela está em fullScreen ou não
 		bool isFullScreen();

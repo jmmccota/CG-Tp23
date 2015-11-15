@@ -9,6 +9,7 @@ class SolidoComposto;
 #include <windows.h>
 #endif
 #include "FuncoesAuxiliares.hpp"
+#include "Fase.hpp"
 #include <GL/gl.h>
 #include <GL/glut.h>
 #include <string>
@@ -22,10 +23,13 @@ class SolidoComposto;
 		os objetos do jogo.
 */
 
+#define SOLIDO
 
 class Solido
 {
 	protected:
+        //Fase a qual o solido pertence
+        Fase *fase;
 		//Posicao central do solido
 		GLfloat posX, posY, posZ;
         //Velocidade de movimentação do solido
@@ -38,8 +42,8 @@ class Solido
         GLfloat rotX, rotY, rotZ;
 
 	public:
-        Solido() {}
-        Solido(GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat tamX, GLfloat tamY, GLfloat tamZ);
+        Solido(Fase* fase) { this->fase = fase; }
+        Solido(GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat tamX, GLfloat tamY, GLfloat tamZ, Fase* fase);
         virtual ~Solido() {}
 
 		//Desenha o solido na tela
@@ -80,7 +84,7 @@ class SolidoBase : public Solido {
 	public:
         SolidoBase();
         SolidoBase(GLfloat tamX, GLfloat tamY, GLfloat tamZ) : 
-            Solido (0, 0, 0, tamX, tamY, tamZ) {}
+            Solido(0, 0, 0, tamX, tamY, tamZ, nullptr) {}
         ~SolidoBase() {}
 
 		//Desenha o solido na tela
@@ -102,9 +106,9 @@ class SolidoComposto : public Solido {
 
 
 	public:
-        SolidoComposto() : Solido() {}
-        SolidoComposto(GLfloat posX, GLfloat posY, GLfloat posZ, float escala) : 
-            Solido(posX, posY, posZ, escala, escala, escala) {}
+        SolidoComposto(Fase* fase) : Solido(fase) {}
+        SolidoComposto(GLfloat posX, GLfloat posY, GLfloat posZ, float escala, Fase* fase) :
+            Solido(posX, posY, posZ, escala, escala, escala, fase) {}
         ~SolidoComposto() {}
 
 		//Desenha o solido na tela
@@ -117,14 +121,16 @@ class SolidoComposto : public Solido {
 
 		//Define as acoes do solido
 		//	(movimento, destruicao, ...)
-		virtual void acao(int value) = 0;
+		virtual void acao() = 0;
 
 		//Calcula o tamanho do solido
-		void calculaTamanho();
+        tuple<GLfloat, GLfloat, GLfloat> calculaTamanho();
 
 		//Teta gira no plano XY e phi gira no plano YZ
         void gira(GLfloat rotX, GLfloat rotY, GLfloat rotZ);
 };
+
+#include "Fase.hpp"
 
 #endif
  

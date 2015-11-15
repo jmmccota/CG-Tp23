@@ -2,11 +2,11 @@
 
 
 Bala::Bala(GLfloat posX, GLfloat posY, GLfloat posZ, float escala) :
-    SolidoComposto(posX, posY, posZ, escala)
+    SolidoComposto(posX, posY, posZ, escala, nullptr)
 {
     this->carrega("models/bala.dat");
 }
-Bala::Bala()
+Bala::Bala() : SolidoComposto(nullptr)
 {
     this->carrega("models/bala.dat");
 }
@@ -15,15 +15,25 @@ Bala::Bala()
 Bala::~Bala()
 {
 }
+
+void Bala::acao()
+{
+    posX += velX;
+    velX += acelX;
+    posY += velY;
+    velY += acelY;
+    posZ += velZ;
+    velZ += acelZ;
+}
  
 
 Relogio::Relogio(GLfloat posX, GLfloat posY, GLfloat posZ, float escala) :
-SolidoComposto(posX, posY, posZ, escala)
+SolidoComposto(posX, posY, posZ, escala, nullptr)
 {
     this->carrega("models/relogio.dat");
 }
 
-Relogio::Relogio()
+Relogio::Relogio() : SolidoComposto(nullptr)
 {
     this->carrega("models/relogio.dat");
 }
@@ -32,7 +42,7 @@ Relogio::~Relogio()
 {
 }
 
-void Relogio::acao(int value)
+void Relogio::acao()
 {
     posX += velX;
     velX += acelX;
@@ -43,13 +53,13 @@ void Relogio::acao(int value)
 }
 
 
-Canhao::Canhao(GLfloat posX, GLfloat posY, GLfloat posZ, float escala) :
-SolidoComposto(posX, posY, posZ, escala)
+Canhao::Canhao(GLfloat posX, GLfloat posY, GLfloat posZ, float escala, Fase* fase) :
+SolidoComposto(posX, posY, posZ, escala, fase)
 {
     this->carrega("models/Canhao.dat");
 }
 
-Canhao::Canhao()
+Canhao::Canhao(Fase* fase) : SolidoComposto(fase)
 {
     this->carrega("models/Canhao.dat");
     this->gira(0, 0, 0);
@@ -59,33 +69,66 @@ Canhao::~Canhao()
 {
 }
 
-void Canhao::acao(int value)
+void Canhao::acao()
 {
-    int qtd = 3;
+    GLfloat qtd = 0.5;
+    if (moveCima)
+        gira(qtd, 0, 0);
+    else if (moveBaixo)
+        gira(-qtd, 0, 0);
+    if (moveEsq)
+        gira(0, qtd, 0);
+    else if (moveDir)
+        gira(0, -qtd, 0);
+}
+
+void Canhao::keyDown(int value)
+{
     switch (value)
     {
-        case GLUT_KEY_UP:
-            gira(qtd, 0, 0);
-            break;
         case GLUT_KEY_DOWN:
-            gira(-qtd, 0, 0);
+            moveBaixo = true;
             break;
-        case GLUT_KEY_RIGHT:
-            gira(0, -qtd, 0);
+        case GLUT_KEY_UP:
+            moveCima = true;
             break;
         case GLUT_KEY_LEFT:
-            gira(0, qtd, 0);
+            moveEsq = true;
             break;
-        //case ' ':{
-        //    GLfloat x = tamX, y = tamY, z = tamZ,
-        //            rX = rotX / 180 * 3.141592, rY = rotY / 180 * 3.141592, rZ = rotZ / 180 * 3.141592,
-        //            xi, yi, zi;
+        case GLUT_KEY_RIGHT:
+            moveDir = true;
+            break;
+    }
+}
 
-        //    //Calcula posicao ponta
-        //    xi = z * cos(1.57079 + rY)
+void Canhao::keyUp(int value)
+{
+    switch (value)
+    {
+        case GLUT_KEY_DOWN:
+            moveBaixo = false;
+            break;
+        case GLUT_KEY_UP:
+            moveCima = false;
+            break;
+        case GLUT_KEY_LEFT:
+            moveEsq = false;
+            break;
+        case GLUT_KEY_RIGHT:
+            moveDir = false;
+            break;
+        case 'z':{
+            GLfloat x = tamZ * sin(-rotY / 180 * 3.141592),
+                y = tamZ * sin(rotX / 180 * 3.141592),
+                z = -tamZ * cos(-rotY / 180 * 3.141592);
 
-        //    Bala b = new Bala();
-        //        break;
-        //}
+            float multVel = 3;
+            Bala *b = new Bala(x, y, z, 0.6);
+            b->gira(rotX, rotY, 0);
+            b->setVel(std::make_tuple(multVel * (x - posX), multVel * (y - posY), multVel * (z - posZ)));
+            b->setAcel(std::make_tuple(0, -0.01, 0));
+            fase->novoProjetil(b);
+            break;
+        }
     }
 }

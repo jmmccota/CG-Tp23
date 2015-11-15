@@ -25,16 +25,24 @@ pair<GLfloat, GLfloat> EfeitoVisual::getOrtho2D()
     return pair<GLfloat, GLfloat>(FULLHD_ORTHO_X, FULLHD_ORTHO_Y);
 }
 
-bool EfeitoVisual::colisao(Solido *a, Solido *b)
+bool EfeitoVisual::colisao(SolidoComposto *a, SolidoComposto *b)
 {
 	std::tuple<GLfloat, GLfloat, GLfloat> pos1, pos2, tam1, tam2;
 	pos1 = a->getPos();
 	pos2 = b->getPos();
-	tam1 = a->getTam();
-	tam2 = b->getTam();
-    if ((abs(std::get<0>(pos1) - std::get<0>(pos2)) <= (std::get<0>(tam1) + std::get<0>(tam2))) &&
-        (abs(std::get<1>(pos1) - std::get<1>(pos2)) <= (std::get<1>(tam1) + std::get<1>(tam2))) &&
-		(abs(std::get<2>(pos1) - std::get<2>(pos2)) <= (std::get<2>(tam1) + std::get<2>(tam2))))
+	tam1 = a->calculaTamanho();
+	tam2 = b->calculaTamanho();
+
+    //Margem de erro safada
+    int margemErro = - (int)std::get<2>(pos2) >> 6;
+    margemErro *= margemErro;
+    margemErro = margemErro > 1 ? margemErro : 2;
+
+    if (abs(std::get<2>(pos1) -std::get<2>(pos2)) < 4)
+        cout << "entrou";
+    if ((abs(std::get<0>(pos1) - std::get<0>(pos2)) <= (margemErro >> 2) * (std::get<0>(tam1) +std::get<0>(tam2))) &&
+        (abs(std::get<1>(pos1) - std::get<1>(pos2)) <= (margemErro >> 2) * (std::get<1>(tam1) +std::get<1>(tam2))) &&
+        (abs(std::get<2>(pos1) - std::get<2>(pos2)) <= (margemErro << 1) * (std::get<2>(tam1) +std::get<2>(tam2))))
         return true;
     return false;
 }

@@ -8,6 +8,7 @@
 class Fase_Canhao : public Fase
 {
     protected:
+        Canhao* principal;
 		GLuint texturas[5];
 
 	public:

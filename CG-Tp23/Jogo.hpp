@@ -5,11 +5,12 @@
 #define TEMPOQUADRO 16
 class Jogo;
 
+#include "Solido.hpp"
 #include "EfeitoVisual.hpp"
 #include "EfeitoSonoro.hpp"
 #include "Fase.hpp"
-#include <vector>
 #include "Score.hpp"
+#include <vector>
 
 
 #define JOGO
@@ -72,8 +73,5 @@ public:
 	void proximaFase();
 	void fimJogo();
 };
-
-
-#include "Fase.hpp"
 
 #endif

@@ -59,7 +59,10 @@ void Jogo::keyDown(unsigned char key, int x, int y)
 void Jogo::keyUp(unsigned char key, int x, int y)
 {
 	switch (key)
-	{
+    {
+        case 'q': //pause
+            Jogo::getInstance().pausado = !Jogo::getInstance().pausado;
+            break;
 		case 27: //Tecla ESC -> Sair do Jogo
 			exit(0);
 			break;
@@ -85,7 +88,7 @@ void Jogo::draw()
 }
 void Jogo::timer(int value)
 {
-	if (!Jogo::getInstance().pausado || Jogo::getInstance().proxFase < 2) {
+	if (!Jogo::getInstance().pausado) {
 		Jogo::getInstance().estado++;
 		Jogo::getInstance().fases[Jogo::getInstance().proxFase]->atualiza(value);
 		glutPostRedisplay();
