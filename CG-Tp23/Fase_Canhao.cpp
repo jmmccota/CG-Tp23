@@ -219,8 +219,8 @@ void Fase_Canhao::specialKeyUp(int key, int x, int y)
 
 void Fase_Canhao::inicializa()
 {
-    glShadeModel(GL_SMOOTH);
-    glEnable(GL_DEPTH_TEST);
+   /* glShadeModel(GL_SMOOTH);
+    glEnable(GL_DEPTH_TEST);*/
     glEnable(GL_TEXTURE_2D);
     glGenTextures(1, texturas);
     texturas[TEXTURA_CENTRO] = SOIL_load_OGL_texture("textures/center.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
