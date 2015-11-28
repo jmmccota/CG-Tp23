@@ -17,6 +17,8 @@ namespace gambi
 
 Fase_Canhao::Fase_Canhao()
 {
+    EfeitoSonoro::getInstance().initAudios_Canhao();
+    EfeitoSonoro::getInstance().playMainTheme();
 }
 
 Fase_Canhao::~Fase_Canhao()

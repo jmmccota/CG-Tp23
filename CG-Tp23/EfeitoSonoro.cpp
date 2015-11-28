@@ -45,7 +45,7 @@ void EfeitoSonoro::initAudios_Menu()
 
 void EfeitoSonoro::initAudios_Canhao()
 {
-	arrayAudios.push_back(new FMOD_Audio(system, "audio/music/MainTitles.mp3", true));
+	arrayAudios.push_back(new FMOD_Audio(system, "audio/theme.mp3", true));
 }
 
 void EfeitoSonoro::finishAllAudios()
@@ -68,16 +68,7 @@ void EfeitoSonoro::playMainTheme()
 #pragma endregion
 
 #pragma region "Personagens"
-void EfeitoSonoro::playSpitfireMotor()
-{
-	arrayAudios[1]->playMemoryAudio(system);
-	//arrayAudios[2]->setVolume(40);
-}
 
-void EfeitoSonoro::stopSpitfireMotor()
-{
-	arrayAudios[1]->stopAudio();
-}
 #pragma endregion
 
 #pragma region "SFX Gerais"

@@ -55,8 +55,6 @@ public:
 	void playMainTheme();
 
 	//Sons personagens
-	void playSpitfireMotor();
-	void stopSpitfireMotor();
 
 	//Tocar os sons uma vez sem carregar na memoria
 	void playStreamAudio(char *file);
