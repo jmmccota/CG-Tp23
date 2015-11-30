@@ -40,6 +40,8 @@ class Solido
         GLfloat tamX, tamY, tamZ;
         //Rotacao do solido
         GLfloat rotX, rotY, rotZ;
+        //Textura do solido
+        GLuint textura;
 
 	public:
         Solido(Fase* fase) { this->fase = fase; }
@@ -47,7 +49,10 @@ class Solido
         virtual ~Solido() {}
 
 		//Desenha o solido na tela
-		virtual void carrega(std::vector<std::string> linhas) = 0;
+        virtual void carrega(std::vector<std::string> linhas) = 0;
+
+        //Carrega a textura do solido 
+        virtual void carregaTextura(GLuint textura) = 0;
 
 		//Desenha o solido na tela
         virtual void desenha() = 0;
@@ -80,15 +85,20 @@ class SolidoBase : public Solido {
         GLfloat cor[4];
 
         GLUquadric* quad;
+        GLuint textura;
 
-	public:
+    public:
+
         SolidoBase();
         SolidoBase(GLfloat tamX, GLfloat tamY, GLfloat tamZ) : 
             Solido(0, 0, 0, tamX, tamY, tamZ, nullptr) {}
         ~SolidoBase() {}
 
-		//Desenha o solido na tela
-		void carrega(std::vector<std::string> linhas);
+		//Carrega a forma do solido
+        void carrega(std::vector<std::string> linhas);
+
+        //Carrega a textura do solido 
+        void carregaTextura(GLuint textura);
 
 		//Desenha o solido na tela
 		void desenha();
@@ -112,9 +122,10 @@ class SolidoComposto : public Solido {
         ~SolidoComposto() {}
 
 		//Desenha o solido na tela
-		void carrega(std::string arquivo);
+        void carrega(std::string forma, GLuint textura);
 
-		void carrega(std::vector<std::string> linhas) {}
+        void carrega(std::vector<std::string> linhas) {}
+        void carregaTextura(GLuint textura) {}
 
 		//Desenha o solido na tela
 		void desenha();

@@ -95,13 +95,6 @@ void Fase_Canhao::desenhaBackground()
 	glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-1000, -1000, 0);
     glEnd();
-
-	glBegin(GL_QUADS);
-	glVertex3f(1000, 1000, 0);
-	glVertex3f(1000, -1000, 0);
-	glVertex3f(-1000, -1000, 0);
-	glVertex3f(-1000, 1000, 0);
-	glEnd();
 }
 
 void Fase_Canhao::desenhaHUD()
@@ -180,6 +173,17 @@ void Fase_Canhao::atualiza(int value)
 {
     principal->acao();
 
+    //insere novos tiros
+    if (rand() % (1000/TEMPOQUADRO) == 0)
+    {
+        GLfloat x = gambi::x[rand() % 2];
+        GLfloat z = gambi::z[rand() % 4];
+        inimigos.push_back(new Relogio(x, -50 + z, z, 5));
+        inimigos.back()->setVel(std::make_tuple(-x / (rand() % 100 + 20), 4, z / (rand() % 100 + 20)));
+        inimigos.back()->setAcel(std::make_tuple(0, -0.02, 0));
+        inimigos.back()->gira(0, (x > 0 ? -45 : 45), 0);
+    }
+
     //remocao de coisas fora da tela
     for (auto i = inimigos.begin(); i != inimigos.end();)
     {
@@ -243,39 +247,7 @@ void Fase_Canhao::mouse(int button, int state, int x, int y)
 
 void Fase_Canhao::keyDown(unsigned char key, int x, int y)
 {
-    switch (key){
-        default:
-            principal->keyDown(key);
-            break;
-        case '1':
-            EfeitoVisual::getInstance().posX++;
-            break;
-        case '2':
-            EfeitoVisual::getInstance().posX--;
-            break;
-        case '3':
-            EfeitoVisual::getInstance().posY++;
-            break;
-        case '4':
-            EfeitoVisual::getInstance().posY--;
-            break;
-        case '5':
-            EfeitoVisual::getInstance().posZ++;
-            break;
-        case '6':
-            EfeitoVisual::getInstance().posZ--;
-            break;
-        case 'P':
-        case 'p':
-            rand();
-            GLfloat x = gambi::x[rand() % 2];
-            GLfloat z = gambi::z[rand() % 4];
-            inimigos.push_back(new Relogio(x, -50 + z, z, 1));
-            inimigos.back()->setVel(std::make_tuple(-x / (rand() % 100 + 20), 4, z / (rand() % 100 + 20)));
-            inimigos.back()->setAcel(std::make_tuple(0, -0.02, 0));
-            inimigos.back()->gira( 0, (x > 0 ? -45 : 45), 0 );
-            break;
-    }
+    principal->keyDown(key);
 }
 
 void Fase_Canhao::keyUp(unsigned char key, int x, int y)
@@ -311,7 +283,7 @@ void Fase_Canhao::inicializa()
     insereLuzes();
 
 	glEnable(GL_TEXTURE_2D);
-	glGenTextures(1, texturas);
+	//glGenTextures(1, texturas);
 	texturas[TEXTURA_CENTRO] = SOIL_load_OGL_texture("textures/center.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 	texturas[TEXTURA_DIREITA] = SOIL_load_OGL_texture("textures/right.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 	texturas[TEXTURA_CIMA] = SOIL_load_OGL_texture("textures/top.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
@@ -322,6 +294,8 @@ void Fase_Canhao::inicializa()
    
 
     srand(time(NULL));
+
+    EfeitoVisual::getInstance().carregaTexturas_FaseCanhao();
 
     principal = new Canhao(0, 0, 0, 1, this);
 }

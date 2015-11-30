@@ -1,14 +1,15 @@
 #include "Objetos.hpp"
 
 
+#pragma region Bala
 Bala::Bala(GLfloat posX, GLfloat posY, GLfloat posZ, float escala) :
     SolidoComposto(posX, posY, posZ, escala, nullptr)
 {
-    this->carrega("models/bala.dat");
+    this->carrega("models/bala.dat", EfeitoVisual::getInstance().texturaBala);
 }
 Bala::Bala() : SolidoComposto(nullptr)
 {
-    this->carrega("models/bala.dat");
+    this->carrega("models/bala.dat", EfeitoVisual::getInstance().texturaBala);
 }
 
 
@@ -25,17 +26,20 @@ void Bala::acao()
     posZ += velZ;
     velZ += acelZ;
 }
- 
+#pragma endregion
 
+///////////////////////////////////////////////////////////////////////
+ 
+#pragma region Relogio
 Relogio::Relogio(GLfloat posX, GLfloat posY, GLfloat posZ, float escala) :
 SolidoComposto(posX, posY, posZ, escala, nullptr)
 {
-    this->carrega("models/relogio.dat");
+    this->carrega("models/relogio.dat", EfeitoVisual::getInstance().texturaRelogio);
 }
 
 Relogio::Relogio() : SolidoComposto(nullptr)
 {
-    this->carrega("models/relogio.dat");
+    this->carrega("models/relogio.dat", EfeitoVisual::getInstance().texturaRelogio);
 }
 
 Relogio::~Relogio()
@@ -51,17 +55,20 @@ void Relogio::acao()
     posZ += velZ;
     velZ += acelZ;
 }
+#pragma endregion
 
+///////////////////////////////////////////////////////////////////////
 
+#pragma region Canhao
 Canhao::Canhao(GLfloat posX, GLfloat posY, GLfloat posZ, float escala, Fase* fase) :
 SolidoComposto(posX, posY, posZ, escala, fase)
 {
-    this->carrega("models/Canhao.dat");
+    this->carrega("models/Canhao.dat", EfeitoVisual::getInstance().texturaCanhao);
 }
 
 Canhao::Canhao(Fase* fase) : SolidoComposto(fase)
 {
-    this->carrega("models/Canhao.dat");
+    this->carrega("models/Canhao.dat", EfeitoVisual::getInstance().texturaCanhao);
     this->gira(0, 0, 0);
 }
 
@@ -71,14 +78,14 @@ Canhao::~Canhao()
 
 void Canhao::acao()
 {
-    GLfloat qtd = 0.5;
-    if (moveCima)
+    GLfloat qtd = 0.5, limite = 30;
+    if (moveCima && rotX < limite)
         gira(qtd, 0, 0);
-    else if (moveBaixo)
+    else if (moveBaixo && rotX > -limite)
         gira(-qtd, 0, 0);
-    if (moveEsq)
+    if (moveEsq && rotY < limite)
         gira(0, qtd, 0);
-    else if (moveDir)
+    else if (moveDir && rotY > -limite)
         gira(0, -qtd, 0);
 }
 
@@ -117,6 +124,7 @@ void Canhao::keyUp(int value)
         case GLUT_KEY_RIGHT:
             moveDir = false;
             break;
+        case 'Z':
         case 'z':{
             GLfloat x = tamZ * sin(-rotY / 180 * 3.141592),
                 y = tamZ * sin(rotX / 180 * 3.141592),
@@ -124,7 +132,7 @@ void Canhao::keyUp(int value)
 
             float multVel = 3;
             Bala *b = new Bala(x, y, z, 0.6);
-            b->gira(rotX, rotY, 0);
+            b->gira(rotX - 90, rotY, 0);
             b->setVel(std::make_tuple(multVel * (x - posX), multVel * (y - posY), multVel * (z - posZ)));
             b->setAcel(std::make_tuple(0, -0.01, 0));
             fase->novoProjetil(b);
@@ -132,3 +140,5 @@ void Canhao::keyUp(int value)
         }
     }
 }
+#pragma endregion
+ 

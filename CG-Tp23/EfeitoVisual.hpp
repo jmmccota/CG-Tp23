@@ -9,6 +9,7 @@ class EfeitoVisual;
 #endif
 #include <GL/gl.h>
 #include <GL/glut.h>
+#include <SOIL.h>
 #include "Solido.hpp"
 #include "EfeitoSonoro.hpp"
 #include <tuple>
@@ -44,6 +45,10 @@ class EfeitoVisual
         GLfloat posX = 0;
         GLfloat posY = 0.3;
         GLfloat posZ = 0;
+
+        GLuint texturaBala, texturaRelogio, texturaCanhao;
+
+        void carregaTexturas_FaseCanhao();
 
 		~EfeitoVisual();
 		

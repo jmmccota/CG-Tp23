@@ -15,6 +15,14 @@ EfeitoVisual::~EfeitoVisual()
 {
 }
 
+void EfeitoVisual::carregaTexturas_FaseCanhao()
+{
+    glEnable(GL_TEXTURE_2D);
+    texturaBala = SOIL_load_OGL_texture("textures/bala.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+    texturaRelogio = SOIL_load_OGL_texture("textures/relogio.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+    texturaCanhao = SOIL_load_OGL_texture("textures/canhao.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+}
+
 void EfeitoVisual::ortho2D()
 {
     gluOrtho2D(0.0f, FULLHD_ORTHO_X, 0.0f, FULLHD_ORTHO_Y);
@@ -32,17 +40,9 @@ bool EfeitoVisual::colisao(SolidoComposto *a, SolidoComposto *b)
 	pos2 = b->getPos();
 	tam1 = a->calculaTamanho();
 	tam2 = b->calculaTamanho();
-
-    //Margem de erro safada
-    int margemErro = - (int)std::get<2>(pos2) >> 6;
-    margemErro *= margemErro;
-    margemErro = margemErro > 1 ? margemErro : 2;
-
-    if (abs(std::get<2>(pos1) -std::get<2>(pos2)) < 4)
-        cout << "entrou";
-    if ((abs(std::get<0>(pos1) - std::get<0>(pos2)) <= (margemErro >> 2) * (std::get<0>(tam1) +std::get<0>(tam2))) &&
-        (abs(std::get<1>(pos1) - std::get<1>(pos2)) <= (margemErro >> 2) * (std::get<1>(tam1) +std::get<1>(tam2))) &&
-        (abs(std::get<2>(pos1) - std::get<2>(pos2)) <= (margemErro << 1) * (std::get<2>(tam1) +std::get<2>(tam2))))
+    if ((abs(std::get<0>(pos1) - std::get<0>(pos2)) <= (std::get<0>(tam1) +std::get<0>(tam2))) &&
+        (abs(std::get<1>(pos1) - std::get<1>(pos2)) <= (std::get<1>(tam1) +std::get<1>(tam2))) &&
+        (abs(std::get<2>(pos1) - std::get<2>(pos2)) <= (std::get<2>(tam1) +std::get<2>(tam2))))
         return true;
     return false;
 }

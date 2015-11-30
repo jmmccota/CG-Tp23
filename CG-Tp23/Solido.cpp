@@ -68,11 +68,15 @@ void SolidoBase::carrega(std::vector<std::string> linhas)
 	tamY *= stof(campos[1]);
 	tamZ *= stof(campos[2]);
 }
+void SolidoBase::carregaTextura(GLuint textura)
+{
+    this->textura = textura;
+}
 
 void SolidoBase::desenha()
 {
     glPushMatrix();
-    glColor4f(cor[0], cor[1], cor[2], cor[3]);
+//    glColor4f(cor[0], cor[1], cor[2], cor[3]);
     glTranslatef(posX, posY, posZ);
     glScalef(tamX, tamY, tamZ);
     glRotatef(rotX, 1, 0, 0);
@@ -80,28 +84,105 @@ void SolidoBase::desenha()
     glRotatef(rotZ, 0, 0, 1);
     if (tipo == "C")
     {
-        glutSolidCube(1);
+        glBindTexture(GL_TEXTURE_2D, textura);
+        glBegin(GL_QUADS);
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex3f(0.5, 0.5, -0.5);
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex3f(0.5, -0.5, -0.5);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex3f(-0.5, -0.5, -0.5);
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex3f(-0.5, 0.5, -0.5);
+        glEnd();
+
+        glBindTexture(GL_TEXTURE_2D, textura);
+        glBegin(GL_QUADS);
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex3f(0.5, 0.5, 0.5);
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex3f(0.5, 0.5, -0.5);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex3f(0.5, -0.5, -0.5);
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex3f(0.5, -0.5, 0.5);
+        glEnd();
+
+        glBindTexture(GL_TEXTURE_2D, textura);
+        glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex3f(-0.5, 0.5, 0.5);
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex3f(-0.5, 0.5, -0.5);
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex3f(-0.5, -0.5, -0.5);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex3f(-0.5, -0.5, 0.5);
+        glEnd();
+
+        glBindTexture(GL_TEXTURE_2D, textura);
+        glBegin(GL_QUADS);
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex3f(0.5, 0.5, 0.5);
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex3f(0.5, 0.5, -0.5);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex3f(-0.5, 0.5, -0.5);
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex3f(-0.5, 0.5, 0.5);
+        glEnd();
+
+        glBindTexture(GL_TEXTURE_2D, textura);
+        glBegin(GL_QUADS);
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex3f(0.5, -0.5, 0.5);
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex3f(0.5, -0.5, -0.5);
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex3f(-0.5, -0.5, -0.5);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex3f(-0.5, -0.5, 0.5);
+        glEnd();	
+
+        glBindTexture(GL_TEXTURE_2D, textura);
+        glBegin(GL_QUADS);
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex3f(0.5, 0.5, 0.5);
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex3f(0.5, -0.5, 0.5);
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex3f(-0.5, -0.5, 0.5);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex3f(-0.5, 0.5, 0.5);
+        glEnd();
     }
     else if (tipo == "K")
     {
         if (nullptr == quad)
+        {
             quad = gluNewQuadric();
+            gluQuadricDrawStyle(quad, GLU_SMOOTH);
+            gluQuadricNormals(quad, GLU_SMOOTH);
+            gluQuadricOrientation(quad, GLU_OUTSIDE);
+            gluQuadricTexture(quad, GL_TRUE);
+        }
 
+        glBindTexture(GL_TEXTURE_2D, textura);
         gluCylinder(quad, 0.5, 0.5, 1, 24, 24);
-        gluQuadricDrawStyle(quad, GLU_SMOOTH);
-        gluQuadricNormals(quad, GLU_SMOOTH);
-        gluQuadricOrientation(quad, GLU_OUTSIDE);
     }
     else if (tipo == "E")
     {
         if (nullptr == quad)
+        {
             quad = gluNewQuadric();
+            gluQuadricDrawStyle(quad, GLU_SMOOTH);
+            gluQuadricNormals(quad, GLU_SMOOTH);
+            gluQuadricOrientation(quad, GLU_OUTSIDE);
+            gluQuadricTexture(quad, GL_TRUE);
+        }
 
-
+        glBindTexture(GL_TEXTURE_2D, textura);
         gluSphere(quad, 1, 24, 24);
-        gluQuadricDrawStyle(quad, GLU_SMOOTH);
-        gluQuadricNormals(quad, GLU_SMOOTH);
-        gluQuadricOrientation(quad, GLU_OUTSIDE);
     }
     glPopMatrix();
 }
@@ -117,12 +198,12 @@ void SolidoBase::gira(GLfloat rotX, GLfloat rotY, GLfloat rotZ)
 ///////////////////////////////////////////////////////////
 
 
-void SolidoComposto::carrega(std::string arquivo)
+void SolidoComposto::carrega(std::string forma, GLuint textura)
 {
 	solidos.clear();
 
 	std::ifstream fs;
-	fs.open(arquivo, std::fstream::in);
+    fs.open(forma, std::fstream::in);
 	while (!fs.eof())
 	{
 		std::string linha;
@@ -138,6 +219,7 @@ void SolidoComposto::carrega(std::string arquivo)
 
 		solidos.push_back(new SolidoBase(tamX, tamY, tamZ));
 		solidos.back()->carrega(linhas);
+        solidos.back()->carregaTextura(textura);
 
         std::tuple<GLfloat, GLfloat, GLfloat> tam = solidos.back()->getTam();
 	}

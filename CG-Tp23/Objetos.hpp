@@ -18,6 +18,8 @@ class Bala : public SolidoComposto
         void acao();
 };
 
+///////////////////////////////////////////////////////////////////////
+
 class Relogio : public SolidoComposto
 {
     public:
@@ -27,6 +29,8 @@ class Relogio : public SolidoComposto
 
         void acao();
 };
+
+///////////////////////////////////////////////////////////////////////
 
 class Canhao : public SolidoComposto
 {
