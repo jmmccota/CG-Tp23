@@ -7,6 +7,9 @@
 #define TEXTURA_ESQUERDA 3
 #define TEXTURA_BAIXO 4
 
+static float fog_color[] = { 0.7, 0.7, 0.7, 1.0 };
+GLfloat fog = 0.0002;
+
 
 namespace gambi
 {
@@ -147,6 +150,10 @@ void Fase_Canhao::insereLuzes()
     // Habilita a luz de número 2
     glEnable(GL_LIGHT2);
     glEnable(GL_DEPTH_TEST);
+	glEnable(GL_FOG);
+	glFogi(GL_FOG_MODE, GL_EXP);
+	glFogf(GL_FOG_DENSITY, fog);
+	glFogfv(GL_FOG_COLOR, fog_color);
 }
 
 void Fase_Canhao::desenha()
@@ -156,7 +163,6 @@ void Fase_Canhao::desenha()
     glLoadIdentity();
 
     EfeitoVisual::getInstance().setCamera();
-
     insereLuzes();
 
     desenhaBackground();
@@ -168,7 +174,7 @@ void Fase_Canhao::desenha()
         (*i)->desenha();
 
     principal->desenha();
-
+	glFogf(GL_FOG_DENSITY, fog);
 	glutSwapBuffers();
 }
 
@@ -265,6 +271,12 @@ void Fase_Canhao::keyDown(unsigned char key, int x, int y)
         case '6':
             EfeitoVisual::getInstance().posZ--;
             break;
+		case '+':
+			fog = fog * 1.1;
+			break;
+		case '-':
+			fog = fog / 1.1;
+			break;
         case 'P':
         case 'p':
             rand();
@@ -275,6 +287,7 @@ void Fase_Canhao::keyDown(unsigned char key, int x, int y)
             inimigos.back()->setAcel(std::make_tuple(0, -0.02, 0));
             inimigos.back()->gira( 0, (x > 0 ? -45 : 45), 0 );
             break;
+
     }
 }
 
