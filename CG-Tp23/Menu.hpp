@@ -42,7 +42,7 @@ protected:
 
 
 public:
-	Menu();
+    Menu(Jogo *jogo) : Fase(jogo) {}
 	~Menu();
 
 	void definePersonagens();

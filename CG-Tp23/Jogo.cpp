@@ -26,8 +26,8 @@ void Jogo::run()
 	glutReshapeFunc(EfeitoVisual::resize);
 
 
-	fases.push_back(new Menu());
-	fases.push_back(new Fase_Canhao());
+	fases.push_back(new Menu(this));
+	fases.push_back(new Fase_Canhao(this));
     proxFase = 0;
 	proximaFase();
 

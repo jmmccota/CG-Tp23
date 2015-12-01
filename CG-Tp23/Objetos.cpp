@@ -222,9 +222,9 @@ void Canhao::keyUp(int value)
         case 'Z':
         case 'z':{
             EfeitoSonoro::getInstance().playCannon();
-            GLfloat x = tamZ * sin(-rotY / 180 * 3.141592) / 2,
-                y = tamZ * sin(rotX / 180 * 3.141592) / 2,
-                z = (-tamZ * cos(-rotY / 180 * 3.141592)) / 2;
+            GLfloat x = tamZ * sin(-rotY / 180 * 3.141592) / 4,
+                y = tamZ * sin(rotX / 180 * 3.141592) / 4,
+                z = (-tamZ * cos(-rotY / 180 * 3.141592)) / 4;
 
             float multVel = 20;
             Bala *b = new Bala(x, y, z, 0.7);

@@ -1,9 +1,6 @@
 #include "Menu.hpp"
 #define FONT_DEFAULT GLUT_BITMAP_HELVETICA_18
 
-Menu::Menu() {
-}
-
 Menu::~Menu() {
 
 }
