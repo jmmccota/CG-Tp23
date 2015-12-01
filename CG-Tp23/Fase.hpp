@@ -102,6 +102,7 @@ class Fase
 //Incluir todas as fases do jogo
 #include "Solido.hpp"
 #include "Fase_Canhao.hpp"
+#include "Menu.hpp"
 
 
 #endif

@@ -5,7 +5,7 @@ int main(int argc, char **argv) {
 
     #ifdef _WIN32
         #include <Windows.h>
-        FreeConsole();
+        //FreeConsole();
     #endif
 
 	Jogo::getInstance().run();

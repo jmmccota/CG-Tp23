@@ -63,7 +63,7 @@ class EfeitoVisual
 
 		//Retorna se a tela está em fullScreen ou não
 		bool isFullScreen();
-
+		void desenhaTitulo(int posX,int posY);
 		//Retorna a resolução padrão da Tela: First = Eixo X; Second = Eixo Y;
 		pair<int, int> sizeScreen();
 

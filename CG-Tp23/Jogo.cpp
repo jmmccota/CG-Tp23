@@ -24,7 +24,7 @@ void Jogo::run()
 	glutCreateWindow("CG-Tp23");
 	glutReshapeFunc(EfeitoVisual::resize);
 
-	//fases.push_back(new Menu());
+	fases.push_back(new Menu());
 	fases.push_back(new Fase_Canhao());
     proxFase = 0;
 	proximaFase();
@@ -84,11 +84,12 @@ void Jogo::specialKeyUp(int key, int x, int y)
 
 void Jogo::draw()
 {
+	//EfeitoVisual::getInstance().ortho2D();
 	Jogo::getInstance().fases[Jogo::getInstance().proxFase]->desenha();
 }
 void Jogo::timer(int value)
 {
-	if (!Jogo::getInstance().pausado) {
+	if (!Jogo::getInstance().pausado || Jogo::getInstance().proxFase < 1) {
 		Jogo::getInstance().estado++;
 		Jogo::getInstance().fases[Jogo::getInstance().proxFase]->atualiza(value);
 		glutPostRedisplay();
@@ -100,6 +101,8 @@ void Jogo::inicializa(int fase)
 {
 	estado = 0;
 	// Inicializa o sistema de coordenadas
+	/*glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();*/
 	glutMouseFunc(Jogo::mouse);
 	glutKeyboardFunc(Jogo::keyDown);
 	glutKeyboardUpFunc(Jogo::keyUp);
