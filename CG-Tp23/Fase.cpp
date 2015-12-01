@@ -1,8 +1,8 @@
 #include "Fase.hpp"
 
-Fase::Fase()
+Fase::Fase(Jogo *jogo)
 {
-
+    this->jogo = jogo;
 }
 
 Fase::~Fase()

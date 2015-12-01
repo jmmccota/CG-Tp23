@@ -225,7 +225,7 @@ void Canhao::keyUp(int value)
                 y = tamZ * sin(rotX / 180 * 3.141592) / 2,
                 z = (-tamZ * cos(-rotY / 180 * 3.141592)) / 2;
 
-            float multVel = 10;
+            float multVel = 20;
             Bala *b = new Bala(x, y, z, 0.7);
             b->gira(rotX - 90, 0, rotY);
             b->setVel(std::make_tuple(multVel * (x - posX), multVel * (y - posY), multVel * (z - posZ)));

@@ -33,6 +33,8 @@ class Fase
 {
 	protected:
 
+        Jogo *jogo;
+
 		//Personagem jogavel
         SolidoComposto *principal;
 
@@ -43,7 +45,7 @@ class Fase
         std::list<SolidoComposto*> projeteis;
 
 	public:
-        Fase();
+        Fase(Jogo *jogo);
 
 		//Limpa memoria alocada dinamicamente
 		virtual ~Fase();

@@ -12,7 +12,7 @@ class Fase_Canhao : public Fase
 		GLuint texturas[5];
 
 	public:
-		Fase_Canhao();
+        Fase_Canhao(Jogo *jogo);
 		~Fase_Canhao();
 
 		void definePersonagens();

@@ -18,10 +18,8 @@ namespace gambi
 }
 
 
-Fase_Canhao::Fase_Canhao()
+Fase_Canhao::Fase_Canhao(Jogo *jogo) : Fase(jogo)
 {
-    EfeitoSonoro::getInstance().initAudios_Canhao();
-    EfeitoSonoro::getInstance().playMainTheme();
 }
 
 Fase_Canhao::~Fase_Canhao()
@@ -184,6 +182,7 @@ void Fase_Canhao::atualiza(int value)
     {
         GLfloat x = gambi::x[rand() % 2];
         GLfloat z = gambi::z[rand() % 6];
+        bool moises = false;
         if (rand() % 20 == 0)
         {
             inimigos.push_back(new SuperRelogio(x, -50 + z, z, 2));
@@ -196,14 +195,24 @@ void Fase_Canhao::atualiza(int value)
         else if (rand() % 15 == 0)
         {
             inimigos.push_back(new Moises(x, -50 + z, z, 4));
+            moises = true;
         }
         else
         {
             inimigos.push_back(new Relogio(x, -50 + z, z, 5));
         }
-        inimigos.back()->setVel(std::make_tuple(-x / (rand() % 100 + 20), 4, z / (rand() % 100 + 20)));
-        inimigos.back()->setAcel(std::make_tuple(0, -0.02, 0));
-        inimigos.back()->gira(0, (x > 0 ? -45 : 45), 0);
+        if (moises)
+        {
+            inimigos.back()->setVel(std::make_tuple(-x / (rand() % 50 + 10) / 2, 2.5, z / (rand() % 50 + 10) / 2));
+            inimigos.back()->setAcel(std::make_tuple(0, -0.01, 0));
+            inimigos.back()->gira(0, (x > 0 ? -45 : 45), 0);
+        }
+        else
+        {
+            inimigos.back()->setVel(std::make_tuple(-x / (rand() % 100 + 20), 4, z / (rand() % 100 + 20)));
+            inimigos.back()->setAcel(std::make_tuple(0, -0.02, 0));
+            inimigos.back()->gira(0, (x > 0 ? -45 : 45), 0);
+        }
     }
 
     //remocao de coisas fora da tela
@@ -250,6 +259,7 @@ void Fase_Canhao::atualiza(int value)
         {
             if (EfeitoVisual::getInstance().colisao(*i, *j))
             {
+                jogo->score += (*j)->getPontos();
                 i = projeteis.erase(i);
                 j = inimigos.erase(j);
                 destruiu = true;
@@ -297,17 +307,6 @@ void Fase_Canhao::keyDown(unsigned char key, int x, int y)
 		case '-':
 			fog = fog / 1.1;
 			break;
-        case 'P':
-        case 'p':
-            rand();
-            GLfloat x = gambi::x[rand() % 2];
-            GLfloat z = gambi::z[rand() % 4];
-            inimigos.push_back(new Relogio(x, -50 + z, z, 1));
-            inimigos.back()->setVel(std::make_tuple(-x / (rand() % 100 + 20), 4, z / (rand() % 100 + 20)));
-            inimigos.back()->setAcel(std::make_tuple(0, -0.02, 0));
-            inimigos.back()->gira( 0, (x > 0 ? -45 : 45), 0 );
-            break;
-
     }
 }
 
@@ -323,7 +322,16 @@ void Fase_Canhao::specialKeyDown(int key, int x, int y)
 
 void Fase_Canhao::specialKeyUp(int key, int x, int y)
 {
-    principal->keyUp(key);
+    switch (key)
+    {
+        case 27: //Tecla ESC -> Volta para o menu
+            jogo->setProxFase(0);
+            jogo->proximaFase();
+            break;
+        default:
+            principal->keyUp(key);
+            break;
+    }
 }
 
 void Fase_Canhao::inicializa()
@@ -355,6 +363,8 @@ void Fase_Canhao::inicializa()
    
 
     std::srand(time(NULL));
+
+    jogo->score = 0;
 
     EfeitoVisual::getInstance().carregaTexturas_FaseCanhao();
     EfeitoSonoro::getInstance().initAudios_Canhao();
