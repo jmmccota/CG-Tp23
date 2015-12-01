@@ -707,4 +707,7 @@ void Menu::inicializa()
 	/*EfeitoSonoro::getInstance().initAudios_Menu();
 	EfeitoSonoro::getInstance().playMainTheme();*/
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+    EfeitoSonoro::getInstance().initAudios_Menu();
+    EfeitoSonoro::getInstance().playMainTheme();
 }

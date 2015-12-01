@@ -95,7 +95,7 @@ pair<double, double> EfeitoVisual::positionScreen(char * type)
     pair<double, double> val;
     if (type == "center") {
         val.first = ((GetSystemMetrics(SM_CXSCREEN) - sizeScreen().first) / 2);
-        val.second = ((GetSystemMetrics(SM_CYSCREEN) - sizeScreen().second) / 2);
+        val.second = ((GetSystemMetrics(SM_CYSCREEN) - sizeScreen().second) / 3);
     }
     return val;
 }

@@ -40,7 +40,7 @@ void EfeitoSonoro::createObjectSystem()
 
 void EfeitoSonoro::initAudios_Menu()
 {
-	arrayAudios.push_back(new FMOD_Audio(system, "audio/music/MainTitles.mp3", true));
+	arrayAudios.push_back(new FMOD_Audio(system, "audio/menu.mp3", true));
 }
 
 void EfeitoSonoro::initAudios_Canhao()
