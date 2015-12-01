@@ -14,6 +14,7 @@ void Jogo::run()
 {
 	pair<int, int> sizeScreen = EfeitoVisual::getInstance().sizeScreen();
 	pair<int, int> posScrenn = EfeitoVisual::getInstance().positionScreen("center");
+
 	char *myargv[1];
 	int myargc = 1;
 	myargv[0] = _strdup("CG-Tp23");
@@ -31,6 +32,7 @@ void Jogo::run()
     proxFase = 0;
 	proximaFase();
 
+    EfeitoVisual::getInstance().carregaTexturas_FaseCanhao();
 
 	glutMainLoop();
 }

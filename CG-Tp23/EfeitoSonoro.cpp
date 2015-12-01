@@ -47,6 +47,7 @@ void EfeitoSonoro::initAudios_Canhao()
 {
     arrayAudios.push_back(new FMOD_Audio(system, "audio/theme.mp3", true));
     arrayAudios.push_back(new FMOD_Audio(system, "audio/cannon.mp3", false));
+    arrayAudios.push_back(new FMOD_Audio(system, "audio/animacao.mp3", false));
 }
 
 void EfeitoSonoro::finishAllAudios()
@@ -67,6 +68,11 @@ void EfeitoSonoro::playMainTheme()
 void EfeitoSonoro::playCannon()
 {
     arrayAudios[1]->playMemoryAudio(system);
+}
+
+void EfeitoSonoro::playAnimacao()
+{
+    arrayAudios[2]->playMemoryAudio(system);
 }
 
 #pragma region "Menu"

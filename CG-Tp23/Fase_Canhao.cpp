@@ -192,9 +192,20 @@ void Fase_Canhao::terminou()
 
 void Fase_Canhao::atualiza(int value)
 {
-    if (nObjetosDestruidos >= 100)
+
+    if (contAnimacao == 450)
     {
         terminou();
+    }
+    else if (contAnimacao == 300)
+    {
+        projeteis.push_back(new Moises(0, 0, -90, 27));
+        EfeitoSonoro::getInstance().playAnimacao();
+    }
+    
+    if (nObjetosDestruidos >= 100)
+    {
+        contAnimacao++;
     }
 
     if (principal->contadorRecuo != 0)
@@ -405,7 +416,6 @@ void Fase_Canhao::inicializa()
 
     jogo->controlaScore = 0;
 
-    EfeitoVisual::getInstance().carregaTexturas_FaseCanhao();
     EfeitoSonoro::getInstance().initAudios_Canhao();
     EfeitoSonoro::getInstance().playMainTheme();
 

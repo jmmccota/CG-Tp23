@@ -54,6 +54,7 @@ public:
 	//Tocar a Musica principal
     void playMainTheme();
     void playCannon();
+    void playAnimacao();
 
 	//Sons personagens
 
