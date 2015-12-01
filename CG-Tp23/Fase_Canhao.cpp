@@ -357,6 +357,8 @@ void Fase_Canhao::inicializa()
     std::srand(time(NULL));
 
     EfeitoVisual::getInstance().carregaTexturas_FaseCanhao();
+    EfeitoSonoro::getInstance().initAudios_Canhao();
+    EfeitoSonoro::getInstance().playMainTheme();
 
     principal = new Canhao(0, 0, 0, 0.5, this);
 }
