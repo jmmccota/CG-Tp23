@@ -28,21 +28,7 @@ vector<PositionMenuElement> vetPosMenuElements;
 //----------------------------------------------------------------------------------------------
 int setaSelectOption = 0;
 bool limitX = false;
-//// mover aviao d opcoes
-//GLfloat translacaoOpcoesY = 0.0f;
-//GLfloat translacaoOpcoesX = 0.0f;
-////translacao bomba menu opcoes
-//GLfloat translacaoBomba = 0.0f;
-////translacao tiro menu opcoes
-//GLfloat translacaoTiro = 0.0f;
-//// translacao tiro menu
-//GLfloat translacaoTiro2 = 0.0f;
-//// boolean para atirar do menu de opcoes
-//boolean atirou = false;
-//// boolean para bombardear do menu de opcoes
-//boolean bombardeou = false;
-//// boolean para atirar menu
-//boolean atirou2 = false;
+
 float xFixo = 0;
 
 //Desenha uma Linha - Parametro: posição em relação ao eixo Y
@@ -197,53 +183,6 @@ void drawOptionsMenu(char *options[], int quantOptions, int posY) {
 
 }
 
-//Desenha Melhores Scores - Parametros: bests, deslocamento no Y
-//void drawBestScoresMenu(vector<Score> bestScores, int decRasterY) {
-//
-//	int rasterX = 250;
-//	int rasterY = 460;
-//	pair<int, int> sizeScreen = EfeitoVisual::getInstance().sizeScreen();
-//	glColor3f(0.93, 0.57, 0.13);
-//	string bestName;
-//	for (int i = 0; i < bestScores.size(); i++) {
-//		glRasterPos2f(rasterX - 50, rasterY);
-//		string rank = std::to_string(i + 1) + " -  ";
-//		FuncoesAuxiliares::writeWord_BITMAP(rank, FONT_DEFAULT);
-//
-//		string name = bestScores[i].getPlayer();
-//		if (i == 0) {
-//			bestName = name;
-//		}
-//		glRasterPos2f(rasterX, rasterY);
-//		FuncoesAuxiliares::writeWord_BITMAP(name, FONT_DEFAULT);
-//
-//		string score = std::to_string(bestScores[i].getScoreValue());
-//		if (EfeitoVisual::getInstance().isFullScreen()) {
-//			glRasterPos2f(rasterX + (sizeScreen.first / 2) - (score.length() * 10) + 12, rasterY);
-//		}
-//		else {
-//			glRasterPos2f(rasterX + (sizeScreen.first / 2) + (290 - score.length() * 10), rasterY);
-//		}
-//		FuncoesAuxiliares::writeWord_BITMAP(score, FONT_DEFAULT);
-//
-//		float comple = (sizeScreen.first / 2) / 10;
-//		string desloc = "_";
-//		for (int letter = 0; letter < comple; letter++) {
-//			desloc += "_";
-//		}
-//		glRasterPos2f(rasterX, rasterY);
-//		FuncoesAuxiliares::writeWord_BITMAP(desloc, FONT_DEFAULT);
-//
-//		rasterY -= decRasterY;
-//	}
-//	glColor3f(0.93, 0.57, 0.13);
-//	int x = 1470, x1 = 1520, y = 480, y1 = 280;
-//	EfeitoVisual::getInstance().desenhaQuadrado(x, y, x1, y1);
-//	EfeitoVisual::getInstance().desenhaQuadrado(x - 30, y, x1, y - 50);
-//	EfeitoVisual::getInstance().desenhaQuadrado(x - 50, y1 + 20, x1 + 50, y1 - 20);
-//	glRasterPos2f(x - 40, y1 - 60);
-//	FuncoesAuxiliares::writeWord_BITMAP(bestName, FONT_DEFAULT);
-//}
 
 //Desenha a Opção do Menu 
 void drawOpcoesMenu() {
@@ -351,47 +290,15 @@ void drawOpcoesMenu() {
 
 	/*-------------- END COMANDOS SETAS ------------------*/
 
-	/*if (atirou) {
-		translacaoTiro += 100;
-		if ((translacaoTiro > 700)) {
-			atirou = false;
-			translacaoTiro = 0;
-		}
-	}
-	if (bombardeou) {
-		translacaoBomba += 10;
-		if ((translacaoBomba > 700)) {
-			bombardeou = false;
-			translacaoBomba = 0;
-		}
-	}*/
-	/*glPushMatrix();
-	TiroSimples *tiro = new TiroSimples(1300, 400, 0.002);
-	TiroSimples *tiro2 = new TiroSimples(1500, 400, 0.002);
-	Spitfire *spitfire = new Spitfire(1400, 360, 0.015, nullptr);
-	Bomba *bomba = new Bomba(1400, 360, 0.003);
-	
-	glPushMatrix();
-	glTranslatef(translacaoOpcoesX, translacaoOpcoesY, 0);
-	glPushMatrix();
-	glTranslatef(0, translacaoTiro, 0);
-	tiro->desenha();
-	tiro2->desenha();
-	glPopMatrix();
-	glPushMatrix();
-	
-	glTranslatef(0, translacaoBomba, 0);
-	bomba->desenha();
-	glPopMatrix();
-	glPopMatrix();
-	glTranslatef(translacaoOpcoesX, translacaoOpcoesY, 0);
-	spitfire->desenha();
-	glPopMatrix();*/
 }
 
 #pragma endregion
 
 void Menu::desenha() {
+
+    glDisable(GL_CULL_FACE);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glDisable(GL_TEXTURE_2D);
 
 	pair<int, int> sizeScreen = EfeitoVisual::getInstance().getOrtho2D();
 
@@ -431,36 +338,6 @@ void Menu::desenha() {
 		options[1] = "OPCOES";
 		options[2] = "SAIR";
 		drawOptionsMenu(options, 3, 291);
-		//Desenha Avião
-		//TiroSimples *municao1 = new TiroSimples(360, 690, 0.002);
-		//TiroSimples *municao2 = new TiroSimples(560, 690, 0.002);
-		//Spitfire *spitfire = new Spitfire(460, 530, 0.045, nullptr);
-		//glPushMatrix();
-
-		////Movendo aviao do menu
-		//if (translacaoY < 190 && !limitX) {
-		//	translacaoY += 4;
-		//	if (translacaoY >= 190) {
-		//		limitX = true;
-		//	}
-
-		//}
-		//else if (limitX) {
-		//	translacaoY -= 4;
-		//	if (translacaoY <= 0) {
-		//		limitX = false;
-		//	}
-		//}
-		////comenta daki
-		//glTranslatef(translacaoY, 0, 0);
-		//glPushMatrix();
-		//glTranslatef(0, translacaoTiro2, 0);
-		//municao1->desenha();
-		//municao2->desenha();
-		//glPopMatrix();
-		//spitfire->desenha();
-		//glPopMatrix();
-		//ate aqui
 
 	}
 
@@ -486,52 +363,28 @@ void Menu::terminou()
 
 void Menu::atualiza(int value) {
 
-	//Testa se a fase acabou
-	terminou();
+    //Testa se a fase acabou
+    terminou();
 
-	// Muda a direção quando chega na borda esquerda ou direita
-	if (posX1 > windowWidth - POSrsize || posX1 < 0)
-		xstep = -xstep;
+    // Muda a direção quando chega na borda esquerda ou direita
+    if (posX1 > windowWidth - POSrsize || posX1 < 0)
+        xstep = -xstep;
 
-	// Muda a direção quando chega na borda superior ou inferior
-	if (PosY1 > windowHeight - POSrsize || PosY1 < 0)
-		ystep = -ystep;
+    // Muda a direção quando chega na borda superior ou inferior
+    if (PosY1 > windowHeight - POSrsize || PosY1 < 0)
+        ystep = -ystep;
 
-	// Verifica as bordas.  Se a window for menor e o 
-	// quadrado sair do volume de visualização 
-	if (posX1 > windowWidth - POSrsize)
-		posX1 = windowWidth - POSrsize - 1;
+    // Verifica as bordas.  Se a window for menor e o 
+    // quadrado sair do volume de visualização 
+    if (posX1 > windowWidth - POSrsize)
+        posX1 = windowWidth - POSrsize - 1;
 
-	if (PosY1 > windowHeight - POSrsize)
-		PosY1 = windowHeight - POSrsize - 1;
+    if (PosY1 > windowHeight - POSrsize)
+        PosY1 = windowHeight - POSrsize - 1;
 
-	// Move o quadrado
-	posX1 += xstep;
-	PosY1 += ystep;
-	/*if (translacaoY == 100 || translacaoY == 400) {
-		atirou2 = true;
-	}
-	if (atirou2) {
-		translacaoTiro2 += 20;
-		if (translacaoTiro2 == 600) {
-			atirou2 = false;
-			translacaoTiro2 = 0;
-		}
-	}*/
-
-#pragma region "Código Desenha do Daniel *-*"
-	/*if (macete == "billgay") {
-		EfeitoSonoro::getInstance().playStreamAudio("audio/sfx/owaw.mp3");
-		Jogo::getInstance().numeroVidas = 999999;
-		macete = "";
-	}
-	else if (macete == "daniball") {
-		EfeitoSonoro::getInstance().playStreamAudio("audio/sfx/owaw.mp3");
-		Jogo::getInstance().score->setScoreValue(100000);
-		macete = "";
-	}*/
-
-#pragma endregion
+    // Move o quadrado
+    posX1 += xstep;
+    PosY1 += ystep;
 }
 
 void Menu::keyDown(unsigned char key, int x, int y)
@@ -547,12 +400,7 @@ void Menu::keyUp(unsigned char key, int x, int y)
 	}
 	else if (optOpcoes) {
 		switch (key) {
-		/*case 'z':
-			atirou = true;
-			break;
-		case 'x':
-			bombardeou= true;
-			break;*/
+
 		}
 	}
 	else {
@@ -584,12 +432,6 @@ void Menu::keyUp(unsigned char key, int x, int y)
 			}
 			break;
 
-		//case 'm': //Tela de Melhores Pontuações
-		//case 'M':
-		//	EfeitoSonoro::getInstance().playEnterMenu();
-		//	optMelhores = true;
-		//	setaSelectOption = 1;
-		//	break;
 		}
 	}
 	//Teclas Gerais
@@ -702,7 +544,7 @@ void Menu::inicializa()
 	EfeitoVisual::getInstance().ortho2D();
 	
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//-------------
 	/*EfeitoSonoro::getInstance().initAudios_Menu();
 	EfeitoSonoro::getInstance().playMainTheme();*/

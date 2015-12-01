@@ -386,7 +386,8 @@ void Fase_Canhao::specialKeyUp(int key, int x, int y)
 
 void Fase_Canhao::inicializa()
 {
-    
+    projeteis.clear();
+    inimigos.clear();
     
 	/*glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, texturas);
