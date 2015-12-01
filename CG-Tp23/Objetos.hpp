@@ -16,6 +16,7 @@ class Bala : public SolidoComposto
 		~Bala();
 
         void acao();
+        inline int getPontos() { return 0; }
 };
 
 ///////////////////////////////////////////////////////////////////////
@@ -28,6 +29,47 @@ class Relogio : public SolidoComposto
         ~Relogio();
 
         void acao();
+        inline int getPontos() { return 10; }
+};
+
+///////////////////////////////////////////////////////////////////////
+
+class SuperRelogio : public SolidoComposto
+{
+public:
+    SuperRelogio();
+    SuperRelogio(GLfloat posX, GLfloat posY, GLfloat posZ, float escala);
+    ~SuperRelogio();
+
+    void acao();
+    inline int getPontos() { return 100; }
+};
+
+///////////////////////////////////////////////////////////////////////
+
+class Silvio : public SolidoComposto
+{
+public:
+    Silvio();
+    Silvio(GLfloat posX, GLfloat posY, GLfloat posZ, float escala);
+    ~Silvio();
+
+    void acao();
+    inline int getPontos() { return 1000000; }
+};
+
+///////////////////////////////////////////////////////////////////////
+
+class Moises : public SolidoComposto
+{
+public:
+    Moises();
+    Moises(GLfloat posX, GLfloat posY, GLfloat posZ, float escala);
+    ~Moises();
+
+    void acao();
+    tuple<GLfloat, GLfloat, GLfloat> calculaTamanho();
+    inline int getPontos() { return 1; }
 };
 
 ///////////////////////////////////////////////////////////////////////
@@ -46,6 +88,7 @@ class Canhao : public SolidoComposto
         void acao();
         void keyDown(int value);
         void keyUp(int value);
+        inline int getPontos() { return 0; }
 };
 
 #endif

@@ -20,6 +20,9 @@ void EfeitoVisual::carregaTexturas_FaseCanhao()
     glEnable(GL_TEXTURE_2D);
     texturaBala = SOIL_load_OGL_texture("textures/bala.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
     texturaRelogio = SOIL_load_OGL_texture("textures/relogio.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+    texturaSuperRelogio = SOIL_load_OGL_texture("textures/superRelogio.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+    texturaSilvio = SOIL_load_OGL_texture("textures/silvio.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+    texturaMoises = SOIL_load_OGL_texture("textures/moises.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
     texturaCanhao = SOIL_load_OGL_texture("textures/canhao.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 }
 
@@ -37,9 +40,10 @@ bool EfeitoVisual::colisao(SolidoComposto *a, SolidoComposto *b)
 {
 	std::tuple<GLfloat, GLfloat, GLfloat> pos1, pos2, tam1, tam2;
 	pos1 = a->getPos();
-	pos2 = b->getPos();
+    pos2 = b->getPos();
 	tam1 = a->calculaTamanho();
 	tam2 = b->calculaTamanho();
+
     if ((abs(std::get<0>(pos1) - std::get<0>(pos2)) <= (std::get<0>(tam1) +std::get<0>(tam2))) &&
         (abs(std::get<1>(pos1) - std::get<1>(pos2)) <= (std::get<1>(tam1) +std::get<1>(tam2))) &&
         (abs(std::get<2>(pos1) - std::get<2>(pos2)) <= (std::get<2>(tam1) +std::get<2>(tam2))))

@@ -14,7 +14,7 @@ GLfloat fog = 0.0002;
 namespace gambi
 {
     GLfloat x[2] = { 100, -100 };
-    GLfloat z[4] = { -50, -100, -150, -200 };
+    GLfloat z[6] = { -50, -100, -150, -200, -250, -300 };
 }
 
 
@@ -183,8 +183,24 @@ void Fase_Canhao::atualiza(int value)
     if (rand() % (1000/TEMPOQUADRO) == 0)
     {
         GLfloat x = gambi::x[rand() % 2];
-        GLfloat z = gambi::z[rand() % 4];
-        inimigos.push_back(new Relogio(x, -50 + z, z, 5));
+        GLfloat z = gambi::z[rand() % 6];
+        if (rand() % 20 == 0)
+        {
+            inimigos.push_back(new SuperRelogio(x, -50 + z, z, 2));
+        }
+        else if (rand() % 15 == 0)
+        {
+            inimigos.push_back(new Silvio(x, -50 + z, z, 4));
+            inimigos.back()->gira(-90, 0, 0);
+        }
+        else if (rand() % 15 == 0)
+        {
+            inimigos.push_back(new Moises(x, -50 + z, z, 4));
+        }
+        else
+        {
+            inimigos.push_back(new Relogio(x, -50 + z, z, 5));
+        }
         inimigos.back()->setVel(std::make_tuple(-x / (rand() % 100 + 20), 4, z / (rand() % 100 + 20)));
         inimigos.back()->setAcel(std::make_tuple(0, -0.02, 0));
         inimigos.back()->gira(0, (x > 0 ? -45 : 45), 0);
@@ -342,6 +358,6 @@ void Fase_Canhao::inicializa()
 
     EfeitoVisual::getInstance().carregaTexturas_FaseCanhao();
 
-    principal = new Canhao(0, 0, 0, 1, this);
+    principal = new Canhao(0, 0, 0, 0.5, this);
 }
  

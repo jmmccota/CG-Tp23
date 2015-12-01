@@ -59,6 +59,101 @@ void Relogio::acao()
 
 ///////////////////////////////////////////////////////////////////////
 
+#pragma region SuperRelogio
+SuperRelogio::SuperRelogio(GLfloat posX, GLfloat posY, GLfloat posZ, float escala) :
+SolidoComposto(posX, posY, posZ, escala, nullptr)
+{
+    this->carrega("models/superRelogio.dat", EfeitoVisual::getInstance().texturaSuperRelogio);
+}
+
+SuperRelogio::SuperRelogio() : SolidoComposto(nullptr)
+{
+    this->carrega("models/superRelogio.dat", EfeitoVisual::getInstance().texturaSuperRelogio);
+}
+
+SuperRelogio::~SuperRelogio()
+{
+}
+
+void SuperRelogio::acao()
+{
+    posX += velX;
+    velX += acelX;
+    posY += velY;
+    velY += acelY;
+    posZ += velZ;
+    velZ += acelZ;
+}
+#pragma endregion
+
+///////////////////////////////////////////////////////////////////////
+
+#pragma region Silvio
+Silvio::Silvio(GLfloat posX, GLfloat posY, GLfloat posZ, float escala) :
+SolidoComposto(posX, posY, posZ, escala, nullptr)
+{
+    this->carrega("models/silvio.dat", EfeitoVisual::getInstance().texturaSilvio);
+}
+
+Silvio::Silvio() : SolidoComposto(nullptr)
+{
+    this->carrega("models/silvio.dat", EfeitoVisual::getInstance().texturaSilvio);
+}
+
+Silvio::~Silvio()
+{
+}
+
+void Silvio::acao()
+{
+    posX += velX;
+    velX += acelX;
+    posY += velY;
+    velY += acelY;
+    posZ += velZ;
+    velZ += acelZ;
+}
+#pragma endregion
+
+///////////////////////////////////////////////////////////////////////
+
+#pragma region Moises
+Moises::Moises(GLfloat posX, GLfloat posY, GLfloat posZ, float escala) :
+SolidoComposto(posX, posY, posZ, escala, nullptr)
+{
+    this->carrega("models/moises.dat", EfeitoVisual::getInstance().texturaMoises);
+}
+
+Moises::Moises() : SolidoComposto(nullptr)
+{
+    this->carrega("models/moises.dat", EfeitoVisual::getInstance().texturaMoises);
+    this->tamX = 0;
+    this->tamY = 0;
+    this->tamZ = 0;
+}
+
+Moises::~Moises()
+{
+}
+
+void Moises::acao()
+{
+    posX += velX;
+    velX += acelX;
+    posY += velY;
+    velY += acelY;
+    posZ += velZ;
+    velZ += acelZ;
+}
+
+tuple<GLfloat, GLfloat, GLfloat> Moises::calculaTamanho()
+{
+    return make_tuple(0, 0, 0);
+}
+#pragma endregion
+
+///////////////////////////////////////////////////////////////////////
+
 #pragma region Canhao
 Canhao::Canhao(GLfloat posX, GLfloat posY, GLfloat posZ, float escala, Fase* fase) :
 SolidoComposto(posX, posY, posZ, escala, fase)
@@ -126,13 +221,13 @@ void Canhao::keyUp(int value)
             break;
         case 'Z':
         case 'z':{
-            GLfloat x = tamZ * sin(-rotY / 180 * 3.141592),
-                y = tamZ * sin(rotX / 180 * 3.141592),
-                z = -tamZ * cos(-rotY / 180 * 3.141592);
+            GLfloat x = tamZ * sin(-rotY / 180 * 3.141592) / 2,
+                y = tamZ * sin(rotX / 180 * 3.141592) / 2,
+                z = (-tamZ * cos(-rotY / 180 * 3.141592)) / 2;
 
-            float multVel = 3;
-            Bala *b = new Bala(x, y, z, 0.6);
-            b->gira(rotX - 90, rotY, 0);
+            float multVel = 10;
+            Bala *b = new Bala(x, y, z, 0.7);
+            b->gira(rotX - 90, 0, rotY);
             b->setVel(std::make_tuple(multVel * (x - posX), multVel * (y - posY), multVel * (z - posZ)));
             b->setAcel(std::make_tuple(0, -0.01, 0));
             fase->novoProjetil(b);

@@ -43,10 +43,11 @@ class EfeitoVisual
 
 	public:
         GLfloat posX = 0;
-        GLfloat posY = 0.3;
+        GLfloat posY = 0.2;
         GLfloat posZ = 0;
 
-        GLuint texturaBala, texturaRelogio, texturaCanhao;
+        GLuint texturaBala, texturaRelogio, texturaSuperRelogio,
+               texturaSilvio, texturaMoises, texturaCanhao;
 
         void carregaTexturas_FaseCanhao();
 

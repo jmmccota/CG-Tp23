@@ -1,14 +1,12 @@
 #include "Solido.hpp"
 
-Solido::Solido(GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat tamX, GLfloat tamY, GLfloat tamZ, Fase* fase)
+Solido::Solido(GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat escala, Fase* fase)
 {
     this->fase = fase;
     this->posX = posX;
     this->posY = posY;
     this->posZ = posZ;
-    this->tamX = tamX;
-    this->tamY = tamY;
-    this->tamZ = tamZ;
+    this->escala = escala;
 }
 
 
@@ -43,14 +41,6 @@ void Solido::setTam(std::tuple<GLfloat, GLfloat, GLfloat> tam)
 
 ///////////////////////////////////////////////////////////////////////
 
-SolidoBase::SolidoBase() : Solido(nullptr)
-{
-    quad = nullptr;
-    tamX = 1;
-    tamY = 1;
-    tamZ = 1;
-}
-
 void SolidoBase::carrega(std::vector<std::string> linhas)
 {
 	std::vector<std::string> campos = FuncoesAuxiliares::split(linhas[0], ' ');
@@ -59,14 +49,14 @@ void SolidoBase::carrega(std::vector<std::string> linhas)
 		cor[i] = stof(campos[i + 1]);
 
 	campos = FuncoesAuxiliares::split(linhas[1], ' ');
-	posX = stof(campos[0]);
-	posY = stof(campos[1]);
-	posZ = stof(campos[2]);
+    posX = escala * stof(campos[0]);
+    posY = escala * stof(campos[1]);
+    posZ = escala * stof(campos[2]);
 
 	campos = FuncoesAuxiliares::split(linhas[2], ' ');
-	tamX *= stof(campos[0]);
-	tamY *= stof(campos[1]);
-	tamZ *= stof(campos[2]);
+	tamX = escala * stof(campos[0]);
+    tamY = escala * stof(campos[1]);
+    tamZ = escala * stof(campos[2]);
 }
 void SolidoBase::carregaTextura(GLuint textura)
 {
@@ -217,7 +207,7 @@ void SolidoComposto::carrega(std::string forma, GLuint textura)
 		std::getline(fs, linha);
 		linhas.push_back(linha);
 
-		solidos.push_back(new SolidoBase(tamX, tamY, tamZ));
+		solidos.push_back(new SolidoBase(escala));
 		solidos.back()->carrega(linhas);
         solidos.back()->carregaTextura(textura);
 
@@ -234,7 +224,7 @@ void SolidoComposto::desenha()
     glRotatef(rotX, 1, 0, 0);
     glRotatef(rotY, 0, 1, 0);
     glRotatef(rotZ, 0, 0, 1);
-    glScalef(tamX, tamY, tamZ);
+    glScalef(escala, escala, escala);
 
 	for (int i = 0; i < solidos.size(); i++)
 		solidos[i]->desenha();
@@ -259,9 +249,9 @@ tuple<GLfloat, GLfloat, GLfloat> SolidoComposto::calculaTamanho()
 			tamZ = abs(std::get<2>(tam)) + abs(std::get<2>(pos));
 	}
 
-    this->tamX = tamX;
-    this->tamY = tamY;
-    this->tamZ = tamZ;
+    this->tamX = escala * tamX;
+    this->tamY = escala * tamY;
+    this->tamZ = escala * tamZ;
 
     return make_tuple(tamX, tamY, tamZ);
 }
