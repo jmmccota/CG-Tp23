@@ -50,7 +50,7 @@ public:
 	//Armazena o valor do frame
 	bool pausado = false;
 	int estado = 0;
-	int controlaScore = 10000;
+	int controlaScore = 0;
 	void setControlaScore();
 	void zeraControlaScore();
 	int getControlaScore();

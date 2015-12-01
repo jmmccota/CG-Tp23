@@ -38,6 +38,8 @@ class Solido
         GLfloat acelX, acelY, acelZ;
         //Escala do solido
         GLfloat tamX, tamY, tamZ;
+        //Escala do solido
+        GLfloat escala;
         //Rotacao do solido
         GLfloat rotX, rotY, rotZ;
         //Textura do solido
@@ -45,7 +47,7 @@ class Solido
 
 	public:
         Solido(Fase* fase) { this->fase = fase; }
-        Solido(GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat tamX, GLfloat tamY, GLfloat tamZ, Fase* fase);
+        Solido(GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat escala, Fase* fase);
         virtual ~Solido() {}
 
 		//Desenha o solido na tela
@@ -88,10 +90,10 @@ class SolidoBase : public Solido {
         GLuint textura;
 
     public:
-
-        SolidoBase();
-        SolidoBase(GLfloat tamX, GLfloat tamY, GLfloat tamZ) : 
-            Solido(0, 0, 0, tamX, tamY, tamZ, nullptr) {}
+        SolidoBase() : 
+            Solido(0, 0, 0, 1, nullptr) {}
+        SolidoBase(GLfloat escala) : 
+            Solido(0, 0, 0, escala, nullptr) {}
         ~SolidoBase() {}
 
 		//Carrega a forma do solido
@@ -118,7 +120,7 @@ class SolidoComposto : public Solido {
 	public:
         SolidoComposto(Fase* fase) : Solido(fase) {}
         SolidoComposto(GLfloat posX, GLfloat posY, GLfloat posZ, float escala, Fase* fase) :
-            Solido(posX, posY, posZ, escala, escala, escala, fase) {}
+            Solido(posX, posY, posZ, escala, fase) {}
         ~SolidoComposto() {}
 
 		//Desenha o solido na tela
@@ -134,8 +136,11 @@ class SolidoComposto : public Solido {
 		//	(movimento, destruicao, ...)
 		virtual void acao() = 0;
 
+        //Numero de pontos quando o objeto eh destruido
+        virtual int getPontos() = 0;
+
 		//Calcula o tamanho do solido
-        tuple<GLfloat, GLfloat, GLfloat> calculaTamanho();
+        virtual tuple<GLfloat, GLfloat, GLfloat> calculaTamanho();
 
 		//Teta gira no plano XY e phi gira no plano YZ
         void gira(GLfloat rotX, GLfloat rotY, GLfloat rotZ);

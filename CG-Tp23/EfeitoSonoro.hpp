@@ -52,7 +52,8 @@ public:
 	void finishAllAudios();
 
 	//Tocar a Musica principal
-	void playMainTheme();
+    void playMainTheme();
+    void playCannon();
 
 	//Sons personagens
 

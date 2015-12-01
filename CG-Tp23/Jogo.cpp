@@ -7,6 +7,7 @@ Jogo::Jogo()
 
 Jogo::~Jogo()
 {
+
 }
 
 void Jogo::run()
@@ -24,6 +25,7 @@ void Jogo::run()
 	glutCreateWindow("CG-Tp23");
 	glutReshapeFunc(EfeitoVisual::resize);
 
+
 	fases.push_back(new Menu());
 	fases.push_back(new Fase_Canhao());
     proxFase = 0;
@@ -38,15 +40,6 @@ Jogo& Jogo::getInstance()
 	static Jogo singleton;
 	return singleton;
 }
-void Jogo::setControlaScore() {
-	controlaScore += 10000;
-}
-void Jogo::zeraControlaScore() {
-	controlaScore = 0;
-}
-int Jogo::getControlaScore() {
-	return controlaScore;
-}
 
 void Jogo::mouse(int button, int state, int x, int y)
 {
@@ -60,12 +53,10 @@ void Jogo::keyUp(unsigned char key, int x, int y)
 {
 	switch (key)
     {
-        case 'q': //pause
+        case 'P':
+        case 'p': //pause
             Jogo::getInstance().pausado = !Jogo::getInstance().pausado;
             break;
-		case 27: //Tecla ESC -> Sair do Jogo
-			exit(0);
-			break;
 		default:
 			Jogo::getInstance().fases[Jogo::getInstance().proxFase]->keyUp(key, x, y);
 			break;
