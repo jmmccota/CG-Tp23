@@ -100,6 +100,16 @@ void Fase_Canhao::desenhaBackground()
 
 void Fase_Canhao::desenhaHUD()
 {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    EfeitoVisual::getInstance().ortho2D();
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glDisable(GL_CULL_FACE);
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+    glRasterPos2f(600, 650);
+    FuncoesAuxiliares::writeWord_BITMAP(std::to_string(Jogo::getInstance().controlaScore), GLUT_BITMAP_TIMES_ROMAN_24);
 }
 
 void Fase_Canhao::insereLuzes()
@@ -149,6 +159,8 @@ void Fase_Canhao::insereLuzes()
 
 void Fase_Canhao::desenha()
 {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -166,19 +178,29 @@ void Fase_Canhao::desenha()
 
     principal->desenha();
 	glFogf(GL_FOG_DENSITY, fog);
+
+    desenhaHUD();
+
 	glutSwapBuffers();
 }
 
 void Fase_Canhao::terminou()
 {
+    jogo->setProxFase(0);
+    jogo->proximaFase();
 }
 
 void Fase_Canhao::atualiza(int value)
 {
+    if (nObjetosDestruidos >= 100)
+    {
+        terminou();
+    }
+
     if (principal->contadorRecuo != 0)
     {
         principal->contadorRecuo++;
-        if (principal->contadorRecuo == 10)
+        if (principal->contadorRecuo == 15)
         {
             principal->setPos(make_tuple(0, 0, 0));
             principal->contadorRecuo = 0;
@@ -188,37 +210,34 @@ void Fase_Canhao::atualiza(int value)
     principal->acao();
 
     //insere novos tiros
-    if (rand() % (1000/TEMPOQUADRO) == 0)
+    if (rand() % (2000 / TEMPOQUADRO) == 0 && nObjetosCriados < 100)
     {
+        nObjetosCriados++;
         GLfloat x = gambi::x[rand() % 2];
         GLfloat z = gambi::z[rand() % 6];
-        bool moises = false;
-        if (rand() % 20 == 0)
+        if (rand() % 10 == 0)
         {
             inimigos.push_back(new SuperRelogio(x, -50 + z, z, 3));
+            inimigos.back()->setVel(std::make_tuple(-x / (rand() % 100 + 20), 4, z / (rand() % 100 + 20)));
+            inimigos.back()->setAcel(std::make_tuple(0, -0.02, 0));
         }
-        else if (rand() % 15 == 0)
+        else if (rand() % 20 == 0)
         {
             inimigos.push_back(new Silvio(x, -50 + z, z, 3));
-            inimigos.back()->gira(-90, (x < 0 ? -45 : 45), 0);
+            inimigos.back()->gira(-90, 0, 0);
+            inimigos.back()->setVel(std::make_tuple(-x / (rand() % 100 + 20), 4, z / (rand() % 150 + 30)));
+            inimigos.back()->setAcel(std::make_tuple(0, -0.02, 0));
         }
         else if (rand() % 15 == 0)
         {
-            inimigos.push_back(new Moises(x, -50 + z, z, 4));
-            moises = true;
-        }
-        else
-        {
-            inimigos.push_back(new Relogio(x, -50 + z, z, 10));
-        }
-        if (moises)
-        {
+            inimigos.push_back(new Moises(x, -50 + z, z, 6));
             inimigos.back()->setVel(std::make_tuple(-x / (rand() % 50 + 10) / 2, 2.5, z / (rand() % 50 + 10) / 2));
             inimigos.back()->setAcel(std::make_tuple(0, -0.01, 0));
             inimigos.back()->gira(0, (x > 0 ? -45 : 45), 0);
         }
         else
         {
+            inimigos.push_back(new Relogio(x, -50 + z, z, 10));
             inimigos.back()->setVel(std::make_tuple(-x / (rand() % 100 + 20), 4, z / (rand() % 100 + 20)));
             inimigos.back()->setAcel(std::make_tuple(0, -0.02, 0));
             inimigos.back()->gira(0, (x > 0 ? -45 : 45), 0);
@@ -235,6 +254,7 @@ void Fase_Canhao::atualiza(int value)
             std::get<2>(pos) > 2000)
         {
             i = inimigos.erase(i);
+            nObjetosDestruidos++;
         }
         else
         {
@@ -273,6 +293,7 @@ void Fase_Canhao::atualiza(int value)
                 i = projeteis.erase(i);
                 j = inimigos.erase(j);
                 destruiu = true;
+                nObjetosDestruidos++;
                 break;
             }
             else
@@ -325,8 +346,7 @@ void Fase_Canhao::keyUp(unsigned char key, int x, int y)
     switch (key)
     {
         case 27:
-            jogo->setProxFase(0);
-            jogo->proximaFase();
+            terminou();
             break;
         default:
             principal->keyUp(key);
