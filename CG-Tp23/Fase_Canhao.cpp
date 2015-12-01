@@ -259,7 +259,7 @@ void Fase_Canhao::atualiza(int value)
         {
             if (EfeitoVisual::getInstance().colisao(*i, *j))
             {
-                jogo->score += (*j)->getPontos();
+                jogo->controlaScore += (*j)->getPontos();
                 i = projeteis.erase(i);
                 j = inimigos.erase(j);
                 destruiu = true;
@@ -312,7 +312,16 @@ void Fase_Canhao::keyDown(unsigned char key, int x, int y)
 
 void Fase_Canhao::keyUp(unsigned char key, int x, int y)
 {
-    principal->keyUp(key);
+    switch (key)
+    {
+        case 27:
+            jogo->setProxFase(0);
+            jogo->proximaFase();
+            break;
+        default:
+            principal->keyUp(key);
+            break;
+    }
 }
 
 void Fase_Canhao::specialKeyDown(int key, int x, int y)
@@ -364,7 +373,7 @@ void Fase_Canhao::inicializa()
 
     std::srand(time(NULL));
 
-    jogo->score = 0;
+    jogo->controlaScore = 0;
 
     EfeitoVisual::getInstance().carregaTexturas_FaseCanhao();
     EfeitoSonoro::getInstance().initAudios_Canhao();

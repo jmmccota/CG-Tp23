@@ -7,6 +7,7 @@ Jogo::Jogo()
 
 Jogo::~Jogo()
 {
+
 }
 
 void Jogo::run()
@@ -25,7 +26,7 @@ void Jogo::run()
 	glutReshapeFunc(EfeitoVisual::resize);
 
 	//fases.push_back(new Menu());
-	fases.push_back(new Fase_Canhao());
+	fases.push_back(new Fase_Canhao(this));
     proxFase = 0;
 	proximaFase();
 
@@ -51,6 +52,7 @@ void Jogo::keyUp(unsigned char key, int x, int y)
 {
 	switch (key)
     {
+        case 'P':
         case 'p': //pause
             Jogo::getInstance().pausado = !Jogo::getInstance().pausado;
             break;
