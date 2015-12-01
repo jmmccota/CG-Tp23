@@ -81,6 +81,9 @@ class Canhao : public SolidoComposto
              moveEsq = false, moveDir = false;
 
     public:
+
+        int contadorRecuo = 0;
+
         Canhao(Fase* fase);
         Canhao(GLfloat posX, GLfloat posY, GLfloat posZ, float escala, Fase* fase);
         ~Canhao();

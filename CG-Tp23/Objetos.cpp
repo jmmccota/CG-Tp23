@@ -221,6 +221,7 @@ void Canhao::keyUp(int value)
             break;
         case 'Z':
         case 'z':{
+            EfeitoSonoro::getInstance().playCannon();
             GLfloat x = tamZ * sin(-rotY / 180 * 3.141592) / 2,
                 y = tamZ * sin(rotX / 180 * 3.141592) / 2,
                 z = (-tamZ * cos(-rotY / 180 * 3.141592)) / 2;
@@ -231,6 +232,13 @@ void Canhao::keyUp(int value)
             b->setVel(std::make_tuple(multVel * (x - posX), multVel * (y - posY), multVel * (z - posZ)));
             b->setAcel(std::make_tuple(0, -0.01, 0));
             fase->novoProjetil(b);
+
+            //Animacao
+            this->setPos(make_tuple(-sin(-rotY / 180 * 3.141592)/5, 
+                                    -sin(rotX / 180 * 3.141592)/5, 
+                                    tamZ * cos(-rotY / 180 * 3.141592)/5));
+            contadorRecuo = 1;
+
             break;
         }
     }

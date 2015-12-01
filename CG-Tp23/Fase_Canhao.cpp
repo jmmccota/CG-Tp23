@@ -175,6 +175,16 @@ void Fase_Canhao::terminou()
 
 void Fase_Canhao::atualiza(int value)
 {
+    if (principal->contadorRecuo != 0)
+    {
+        principal->contadorRecuo++;
+        if (principal->contadorRecuo == 10)
+        {
+            principal->setPos(make_tuple(0, 0, 0));
+            principal->contadorRecuo = 0;
+        }
+    }
+        
     principal->acao();
 
     //insere novos tiros
@@ -185,12 +195,12 @@ void Fase_Canhao::atualiza(int value)
         bool moises = false;
         if (rand() % 20 == 0)
         {
-            inimigos.push_back(new SuperRelogio(x, -50 + z, z, 2));
+            inimigos.push_back(new SuperRelogio(x, -50 + z, z, 3));
         }
         else if (rand() % 15 == 0)
         {
-            inimigos.push_back(new Silvio(x, -50 + z, z, 4));
-            inimigos.back()->gira(-90, 0, 0);
+            inimigos.push_back(new Silvio(x, -50 + z, z, 3));
+            inimigos.back()->gira(-90, (x < 0 ? -45 : 45), 0);
         }
         else if (rand() % 15 == 0)
         {
@@ -199,7 +209,7 @@ void Fase_Canhao::atualiza(int value)
         }
         else
         {
-            inimigos.push_back(new Relogio(x, -50 + z, z, 5));
+            inimigos.push_back(new Relogio(x, -50 + z, z, 10));
         }
         if (moises)
         {
